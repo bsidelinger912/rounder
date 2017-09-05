@@ -1,0 +1,31 @@
+{
+    "extends": "eslint-config-airbnb",
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "plugins": [
+        "prefer-object-spread"
+    ],
+    "rules": {
+      "import/no-extraneous-dependencies": [0],
+      "import/no-unresolved": [0],
+      "import/extensions": [0],
+      "no-confusing-arrow": [0],
+      "max-len": [
+        1,
+        150
+      ],
+      "jsx-a11y/no-static-element-interactions": [0],
+      "import/no-named-as-default": [0]
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "mocha": true
+    }
+}

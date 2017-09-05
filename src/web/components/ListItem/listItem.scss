@@ -1,0 +1,10 @@
+@import "~web/client/scss/mixins";
+
+.date {
+  @include postDate;
+}
+
+.author {
+  display: block;
+  margin: 10px 0;
+}
