@@ -1,9 +1,3 @@
-# Turns All Year
+# Rounder
 
-This is the new TAY site.
-
-To start in dev mode:
-`$ npm run dev`
-
-To start in prod mode:
-`$ npm run build && npm run start`
+### Schedule like a boss
