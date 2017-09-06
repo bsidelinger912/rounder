@@ -29,11 +29,42 @@ module.exports = (app) => {  // , passport) => {
   });
 
   // process the login form
-  app.post('/login', passport.authenticate('local-login', {
+  /* app.post('/login', passport.authenticate('local-login', {
     successRedirect: '/profile', // redirect to the secure profile section
     failureRedirect: '/login', // redirect back to the signup page if there is an error
     failureFlash: true, // allow flash messages
-  }));
+  }));*/
+
+  app.post('/login', (req, res, next) => {
+    passport.authenticate('local-login', (err, user, info) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: 'There was an unknown error',
+        });
+      }
+
+      if (!user) {
+        return res.status(400).json({
+          success: false,
+          message: info.message,
+        });
+      }
+
+      return req.logIn(user, (error) => {
+        if (error) {
+          return res.status(500).json({
+            success: false,
+            message: 'There was an unknown error',
+          });
+        }
+
+        return res.json({
+          success: true,
+        });
+      });
+    })(req, res, next);
+  });
 
   // =====================================
   // SIGNUP ==============================
