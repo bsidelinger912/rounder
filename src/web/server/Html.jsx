@@ -16,7 +16,7 @@ const Html = ({ markup, currentState }) => {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="UTF-8" />
-        <title>Turns All Year</title>
+        <title>Rounder</title>
 
         <link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css" />
         <link href="/icomoon/style.css" rel="stylesheet" type="text/css" />
