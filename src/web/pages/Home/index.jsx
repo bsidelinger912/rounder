@@ -2,6 +2,8 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 // import { Link } from 'react-router';
 
+import SignupOrLogin from 'web/components/SignupOrLogin';
+
 import container from 'containers/HomeContainer';
 
 import styles from './home.scss';
@@ -12,7 +14,9 @@ const propTypes = {
 
 const Home = () => (
   <main className={styles.main}>
-    <h1>Hello</h1>
+    <div className={styles.form}>
+      <SignupOrLogin />
+    </div>
   </main>
 );
 

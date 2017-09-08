@@ -8,7 +8,10 @@ function isLoggedIn(req, res, next) {
   }
 
   // if they aren't redirect them to the home page
-  return res.redirect('/');
+  return res.status(401).json({
+    success: false,
+    message: 'Unauthorized',
+  });
 }
 
 module.exports = (app) => {  // , passport) => {
@@ -61,6 +64,8 @@ module.exports = (app) => {  // , passport) => {
 
         return res.json({
           success: true,
+          // TODO: remove user password here!
+          user,
         });
       });
     })(req, res, next);
@@ -75,12 +80,38 @@ module.exports = (app) => {  // , passport) => {
     res.render('signup.ejs', { message: req.flash('signupMessage') });
   });
 
+  app.post('/signup', (req, res, next) => {
+    passport.authenticate('local-signup', (err, user, info) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: info.message || 'There was an unknown error',
+        });
+      }
+
+      return req.logIn(user, (error) => {
+        if (error) {
+          return res.status(500).json({
+            success: false,
+            message: 'There was an unknown error',
+          });
+        }
+
+        return res.json({
+          success: true,
+          // TODO: remove user password here!
+          user,
+        });
+      });
+    })(req, res, next);
+  });
+
   // process the signup form
-  app.post('/signup', passport.authenticate('local-signup', {
+  /* app.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/profile', // redirect to the secure profile section
     failureRedirect: '/signup', // redirect back to the signup page if there is an error
     failureFlash: true, // allow flash messages
-  }));
+  }));*/
 
   // =====================================
   // PROFILE SECTION =====================
