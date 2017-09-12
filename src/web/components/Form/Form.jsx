@@ -11,12 +11,17 @@ import PropTypes from 'prop-types';
 export class Form extends React.Component {
   static propTypes = {
     validation: PropTypes.func,
-    onSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func,
     children: PropTypes.node.isRequired,
   }
 
   static defaultProps = {
     validation: null,
+    onSubmit: () => {},
+  }
+
+  static childContextTypes = {
+    validationErrors: PropTypes.object,
   }
 
   constructor() {
@@ -27,17 +32,22 @@ export class Form extends React.Component {
     this.state = { validationErrors: {} };
 
     this.onSubmit = this.onSubmit.bind(this);
-    this.serialize = this.serialize.bind(this);
   }
 
-  onSubmit() {
+  getChildContext() {
+    return { field: this.state.validationErrors };
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+
     const validation = this.validate();
 
     if (Object.keys(validation).length > 0) {
       this.setState({ validationErrors: validation });
     } else {
       const data = this.serialize();
-      this.props.onSubmit(data);
+      this.props.onSubmit(data, e);
     }
   }
 
@@ -60,7 +70,7 @@ export class Form extends React.Component {
 
   render() {
     return (
-      <form ref={(form) => { this.formElement = form; }}>
+      <form onSubmit={this.onSubmit} ref={(form) => { this.formElement = form; }}>
         {this.props.children}
       </form>
     );

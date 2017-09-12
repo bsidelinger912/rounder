@@ -2,8 +2,6 @@
 
 .main {
   // @include main;
-  background: #a66c5e url('/images/home-bg.jpg') no-repeat;
-  padding: #{$largeGutter + 70}px 0 0;
   height: 1500px;
 }
 
@@ -11,6 +9,8 @@
   width: 100%;
   max-width: 700px;
   padding: 15px;
-  background: white;
-  margin: 0 auto;
+  background: rgba(white, .7);
+  border-radius: 3px;
+  box-sizing: border-box;
+  margin: 20px auto;
 }

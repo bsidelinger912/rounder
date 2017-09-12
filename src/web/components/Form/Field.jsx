@@ -23,12 +23,18 @@ export class Field extends React.Component {
     field: PropTypes.string,
   }
 
+  static contextTypes = {
+    validationErrors: PropTypes.object,
+  }
+
   getChildContext() {
     return { field: this.props.field };
   }
 
   render() {
     const { children, label, field } = this.props;
+    const { validationErrors } = this.context;
+
     const labelElem = label ? <label htmlFor={field}>{label}</label> : null;
 
     return (

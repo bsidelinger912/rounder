@@ -28,15 +28,15 @@ class Header extends React.Component {
           </Link>
 
           <nav className={`${styles.main} ${navStateClass}`}>
+            <switch className={styles.hamburger} onClick={this.toggleMenu}>
+              <i className="icon-menu" />
+            </switch>
+
             <ul className={styles.nav}>
               <li><Link to="/one">One</Link></li>
               <li><Link to="/two">Two</Link></li>
               <li><Link to="/three">Three</Link></li>
             </ul>
-
-            <switch className={styles.hamburger} onClick={this.toggleMenu}>
-              <i className="icon-menu" />
-            </switch>
           </nav>
         </div>
       </header>

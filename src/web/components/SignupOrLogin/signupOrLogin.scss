@@ -1,0 +1,16 @@
+@import "~web/client/scss/mixins";
+
+.heading {
+  margin: 0 0 20px;
+}
+
+.buttonRow {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  button {
+    margin-left: 20px;
+  }
+}

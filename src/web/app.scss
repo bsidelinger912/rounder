@@ -1,4 +1,8 @@
+@import "~web/client/scss/mixins";
+
 .main {
   /* max-width: 1400px;
   margin: 0 auto;*/
+  background: #a66c5e url('/images/home-bg.jpg') no-repeat;
+  padding: #{$largeGutter + 70}px 10px 0;
 }

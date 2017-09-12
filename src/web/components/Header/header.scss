@@ -1,8 +1,11 @@
 @import "~web/client/scss/mixins";
 
+$headerTop: rgba($black, .6);
+$mobileNavBg: rgba($whiteSmoke, .9);
+
 .wrapper {
   width: 100%;
-  background: linear-gradient(to bottom, $black, $black 20%, transparent 100%);
+  background: linear-gradient(to bottom, $headerTop, $headerTop 20%, transparent 100%);
   position: absolute;
   top: 0;
   left: 0;
@@ -12,6 +15,8 @@
   @include main;
   display: flex;
   height: 70px;
+  align-items: center;
+  padding: 0 10px;
 }
 
 .main {
@@ -19,6 +24,7 @@
   flex-grow: 1;
   display: flex;
   position: relative;
+  height: 100%;
 }
 
 .title {
@@ -35,12 +41,13 @@
   opacity: 0;
   list-style: none;
   position: absolute;
-  top: 70px;
+  top: 63px;
   right: 0;
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
+  background-color: $mobileNavBg;
 
   .showMenu & {
     opacity: 1;
@@ -48,6 +55,7 @@
 
   @include media($tabletWidth, 0) {
     opacity: 1;
+    background-color: transparent;
     flex-direction: row;
     position: relative;
     top: 0;
@@ -65,7 +73,7 @@
   }
 
   a {
-    color: $whiteSmoke;
+    color: $darkestGrey;
     text-decoration: none;
     cursor: pointer;
     font-size: 1.8rem;
@@ -73,15 +81,23 @@
     &:hover {
       color: $dimGrey;
     }
+
+    @include media($tabletWidth, 0) {
+      color: $whiteSmoke;
+    }
   }
 }
 
 .hamburger {
   position: absolute;
   top: 15px;
-  right: 10px;
+  right: 0px;
   font-size: 40px;
   cursor: pointer;
+
+  .showMenu &  {
+    background-color: $mobileNavBg;
+  }
 
   @include media($tabletWidth, 0) {
     opacity: 0;
