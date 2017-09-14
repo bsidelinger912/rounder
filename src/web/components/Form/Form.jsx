@@ -35,14 +35,14 @@ export class Form extends React.Component {
   }
 
   getChildContext() {
-    return { field: this.state.validationErrors };
+    return { validationErrors: this.state.validationErrors };
   }
 
   onSubmit(e) {
     e.preventDefault();
 
     const validation = this.validate();
-
+    console.log({ ...validation });
     if (Object.keys(validation).length > 0) {
       this.setState({ validationErrors: validation });
     } else {

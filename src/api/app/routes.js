@@ -83,17 +83,22 @@ module.exports = (app) => {  // , passport) => {
   app.post('/signup', (req, res, next) => {
     passport.authenticate('local-signup', (err, user, info) => {
       if (err) {
+        console.error(err);
+        console.error(info);
         return res.status(500).json({
           success: false,
-          message: info.message || 'There was an unknown error',
+          message: info.message || 'There was an unknown error creating user',
         });
       }
 
+      console.log(user);
+
       return req.logIn(user, (error) => {
         if (error) {
+          console.error(error);
           return res.status(500).json({
             success: false,
-            message: 'There was an unknown error',
+            message: 'There was an unknown error logging user in',
           });
         }
 

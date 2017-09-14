@@ -34,13 +34,18 @@ export class Field extends React.Component {
   render() {
     const { children, label, field } = this.props;
     const { validationErrors } = this.context;
-
     const labelElem = label ? <label htmlFor={field}>{label}</label> : null;
+
+    const fieldError = validationErrors[field];
+    const errorElem = fieldError ? (
+      <div className={styles.fieldError}>{fieldError}</div>
+    ) : null;
 
     return (
       <div className={styles.formRow}>
         {labelElem}
         {children}
+        {errorElem}
       </div>
     );
   }

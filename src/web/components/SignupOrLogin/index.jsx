@@ -10,11 +10,18 @@ import { Form, Text, Field } from '../Form';
 
 import styles from './signupOrLogin.scss';
 
-function validate (data) {
-  return {
-    email: data.email ? undefined : 'Email is Required',
-    password: data.password ? undefined : 'Password is required',
-  };
+function validate(data) {
+  const errors = {};
+
+  if (!data.get('email')) {
+    errors.email = 'Email is Required';
+  }
+
+  if (!data.get('password')) {
+    errors.password = 'Password is required';
+  }
+
+  return errors;
 }
 
 export class Signup extends React.Component {
@@ -33,17 +40,25 @@ export class Signup extends React.Component {
   }
 
   handleSubmit(data) {
-    console.log(data);
-    console.log(this.action);
-
     // call API
-    fetch('http://localhost:4000/signup', {
-      method: 'POST',
-      body: data,
-    })
-    .then(resp => resp.json())
-    .then(resp => console.log(resp))
-    .catch(err => console.error(err));
+    let fetchCall;
+    if (this.action === 'signup') {
+      fetchCall = fetch('http://localhost:4000/signup', {
+        method: 'POST',
+        body: data,
+        credentials: 'include',
+      });
+    } else {
+      fetchCall = fetch('http://localhost:4000/login', {
+        method: 'POST',
+        body: data,
+        credentials: 'include',
+      });
+    }
+
+    fetchCall.then(resp => resp.json())
+      .then(resp => console.log(resp))
+      .catch(err => console.error(err));
   }
 
   signup() {

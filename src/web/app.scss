@@ -3,6 +3,9 @@
 .main {
   /* max-width: 1400px;
   margin: 0 auto;*/
-  background: #a66c5e url('/images/home-bg.jpg') no-repeat;
+  background: rgb(195, 195, 170) url('/images/home-2-bg.jpg') no-repeat;
+  background-size: 100%;
   padding: #{$largeGutter + 70}px 10px 0;
+  height: 100vh;
+  box-sizing: border-box;
 }
