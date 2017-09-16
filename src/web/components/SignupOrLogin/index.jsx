@@ -13,11 +13,11 @@ import styles from './signupOrLogin.scss';
 function validate(data) {
   const errors = {};
 
-  if (!data.get('email')) {
+  if (!data.email) {
     errors.email = 'Email is Required';
   }
 
-  if (!data.get('password')) {
+  if (!data.password) {
     errors.password = 'Password is required';
   }
 
@@ -41,24 +41,18 @@ export class Signup extends React.Component {
 
   handleSubmit(data) {
     // call API
-    let fetchCall;
-    if (this.action === 'signup') {
-      fetchCall = fetch('http://localhost:4000/signup', {
-        method: 'POST',
-        body: data,
-        credentials: 'include',
-      });
-    } else {
-      fetchCall = fetch('http://localhost:4000/login', {
-        method: 'POST',
-        body: data,
-        credentials: 'include',
-      });
-    }
+    const url = this.action === 'signup' ? 'http://localhost:4000/signup' : 'http://localhost:4000/login';
 
-    fetchCall.then(resp => resp.json())
-      .then(resp => console.log(resp))
-      .catch(err => console.error(err));
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(resp => resp.json())
+    .then(resp => console.log(resp))
+    .catch(err => console.error(err));
   }
 
   signup() {

@@ -5,6 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import serialize from 'form-serialize';
 
 // import styles from './form.scss';
 
@@ -40,9 +41,10 @@ export class Form extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ validationErrors: {} });
 
     const validation = this.validate();
-    console.log({ ...validation });
+
     if (Object.keys(validation).length > 0) {
       this.setState({ validationErrors: validation });
     } else {
@@ -63,7 +65,7 @@ export class Form extends React.Component {
   }
 
   serialize() {
-    const data = new FormData(this.formElement);
+    const data = serialize(this.formElement, { hash: true });
 
     return data;
   }

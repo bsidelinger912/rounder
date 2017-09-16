@@ -17,8 +17,6 @@ module.exports = (app) => {
 
   // Strategy
   passport.use(new JwtStrategy(jwtOptions, (jwtPayload, next) => {
-    // console.log('payload received', jwtPayload);
-
     User.findOne({ 'local.email': jwtPayload.id }, (err, user) => {
       if (!err && user) {
         next(null, user);
