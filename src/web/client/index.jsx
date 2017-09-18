@@ -11,6 +11,8 @@ import { AppContainer } from 'react-hot-loader';
 
 import reducers from 'reducers';
 import routes from 'web/routes';
+import ApiClient from 'web/apiClient';
+import ContextProvider from 'web/ContextProvider';
 
 const store = createStore(
   combineReducers(reducers),
@@ -21,12 +23,16 @@ const store = createStore(
   ),
 );
 
+const apiClient = new ApiClient(store);
+
 const render = (routesFile) => {
   ReactDOM.render(
     <AppContainer>
-      <Provider store={store} key="provider">
-        <Router routes={routesFile} render={props => <ReduxAsyncConnect {...props} />} history={browserHistory} />
-      </Provider>
+      <ContextProvider apiClient={apiClient}>
+        <Provider store={store} key="provider">
+          <Router routes={routesFile} render={props => <ReduxAsyncConnect {...props} />} history={browserHistory} />
+        </Provider>
+      </ContextProvider>
     </AppContainer>,
     document.getElementById('react-root'),
   );
@@ -37,7 +43,7 @@ render(routes);
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('web/routes.jsx', () => {
-    const nextRoutes = require('web/routes').default;
+    const nextRoutes = require('web/routes').default; // eslint-disable-line global-require
     render(nextRoutes);
   });
 }

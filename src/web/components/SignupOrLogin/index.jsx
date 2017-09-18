@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { Form, Text, Field } from '../Form';
 
@@ -29,6 +29,10 @@ export class Signup extends React.Component {
     // test: PropTypes.number.isRequired,
   }
 
+  static contextTypes = {
+    apiClient: PropTypes.object,
+  };
+
   constructor() {
     super();
 
@@ -40,19 +44,17 @@ export class Signup extends React.Component {
   }
 
   handleSubmit(data) {
-    // call API
-    const url = this.action === 'signup' ? 'http://localhost:4000/signup' : 'http://localhost:4000/login';
+    const { apiClient } = this.context;
+    let method;
 
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then(resp => resp.json())
-    .then(resp => console.log(resp))
-    .catch(err => console.error(err));
+    if (this.action === 'signup') {
+      method = apiClient.signup(data);
+    } else {
+      method = apiClient.login(data);
+    }
+
+    // TODO: should we handle auth error in state here?
+    method.catch(error => console.error(error));
   }
 
   signup() {

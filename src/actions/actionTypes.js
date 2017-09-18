@@ -6,6 +6,11 @@ const actionTypes = {
   HOME: {
     DATA_SUCCESS: 'HOME.DATA_SUCCESS',
   },
+
+  AUTH: {
+    LOGIN: 'AUTH.LOGIN',
+    LOGOUT: 'AUTH.LOGOUT',
+  },
 };
 
 export default Object.freeze(actionTypes);

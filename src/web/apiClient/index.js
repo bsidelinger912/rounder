@@ -1,14 +1,32 @@
+import cookie from 'isomorphic-cookie';
+
+import { login, logout } from 'actions/authActions';
 
 // TODO: configure for env
-const baseUrl = 'localhost:4000';
+const baseUrl = 'http://localhost:4000';
 
-// TODO: accept the req here to grab cookies
-export default () => ({
-  // TODO: get from cookie
-  authToken: undefined,
 
-  login: data => (
-    fetch(`${baseUrl}/login`, {
+class ApiClient {
+  constructor(reduxStore, request) {
+    // request is only defined on the server
+    this.authToken = cookie.load('jwt', request);
+    this.reduxStore = reduxStore;
+
+    // since we need to create the store before we creat the auth client,
+    // we'll dispatch a login here on start if they've got a jwt cookie
+    if (this.authToken) {
+      this.reduxStore.dispatch(login());
+    }
+  }
+
+  saveToken(token) {
+    cookie.save('jwt', token, { secure: false }); // TODO: make conditional
+    this.authToken = token;
+    this.reduxStore.dispatch(login());
+  }
+
+  login(data) {
+    return fetch(`${baseUrl}/login`, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
@@ -16,10 +34,16 @@ export default () => ({
       },
     })
     .then(resp => resp.json())
-    // TODO: save to cookie
-  ),
+    .then(json => this.saveToken(json.token));
+  }
 
-  signup: data => (
+  logout() {
+    cookie.remove('jwt');
+    this.authToken = undefined;
+    this.reduxStore.dispatch(logout());
+  }
+
+  signup(data) {
     fetch(`${baseUrl}/signup`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -28,6 +52,8 @@ export default () => ({
       },
     })
     .then(resp => resp.json())
-    // TODO: save to cookie
-  ),
-});
+    .then(json => this.saveToken(json.token));
+  }
+}
+
+export default ApiClient;
