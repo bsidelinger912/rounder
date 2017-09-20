@@ -38,6 +38,8 @@ export class Signup extends React.Component {
 
     this.action = 'login';
 
+    this.state = { loading: false };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
@@ -47,11 +49,15 @@ export class Signup extends React.Component {
     const { apiClient } = this.context;
     let method;
 
+    this.setState({ loading: true });
+
     if (this.action === 'signup') {
       method = apiClient.signup(data);
     } else {
       method = apiClient.login(data);
     }
+
+    method.then(() => this.setState({ loading: false }));
 
     // TODO: should we handle auth error in state here?
     method.catch(error => console.error(error));
@@ -66,6 +72,14 @@ export class Signup extends React.Component {
   }
 
   render() {
+    const { loading } = this.state;
+
+    if (loading) {
+      return (
+        <div className={styles.loading}>Loading...</div>
+      );
+    }
+
     return (
       <div>
         <h2 className={styles.heading}>Sign up or log in</h2>

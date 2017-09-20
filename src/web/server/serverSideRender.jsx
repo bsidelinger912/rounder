@@ -9,6 +9,8 @@ import thunk from 'redux-thunk';
 
 import reducers from 'reducers';
 import routes from 'web/routes';
+import ApiClient from 'web/apiClient';
+import ContextProvider from 'web/ContextProvider';
 import Html from './Html';
 
 export default function (req, res) {
@@ -24,18 +26,20 @@ export default function (req, res) {
     } else if (renderProps) {
       const store = createStore(
         combineReducers(reducers),
-        compose(
-          applyMiddleware(thunk),
-        ),
+        compose(applyMiddleware(thunk)),
       );
 
-      loadOnServer({ ...renderProps, store }).then(() => {
+      const apiClient = new ApiClient(store, req);
+
+      loadOnServer({ ...renderProps, store, helpers: { apiClient } }).then(() => {
         let markup = '';
         try {
           markup = ReactDOMServer.renderToString(
-            <Provider store={store} key="provider">
-              <RouterContext {...renderProps} render={props => <ReduxAsyncConnect {...props} />} />
-            </Provider>);
+            <ContextProvider apiClient={apiClient}>
+              <Provider store={store} key="provider">
+                <RouterContext {...renderProps} render={props => <ReduxAsyncConnect {...props} />} />
+              </Provider>
+            </ContextProvider>);
         } catch (error) {
           return res.status(500).send(error.message);
         }

@@ -12,10 +12,14 @@ const propTypes = {
   loggedIn: PropTypes.bool.isRequired,
 };
 
-const Home = ({ loggedIn }) => {
+const contextTypes = {
+  apiClient: PropTypes.object,
+};
+
+const Home = ({ loggedIn }, { apiClient }) => {
   const component = loggedIn ? (
     <div>
-      you are logged in
+      you are logged in <a onClick={apiClient.logout}>logout</a>
     </div>
   ) : <SignupOrLogin />;
 
@@ -29,5 +33,6 @@ const Home = ({ loggedIn }) => {
 };
 
 Home.propTypes = propTypes;
+Home.contextTypes = contextTypes;
 
 export default container(Home);

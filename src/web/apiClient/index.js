@@ -1,10 +1,10 @@
 import cookie from 'isomorphic-cookie';
 
 import { login, logout } from 'actions/authActions';
+import dataCalls from './dataCalls';
 
 // TODO: configure for env
 const baseUrl = 'http://localhost:4000';
-
 
 class ApiClient {
   constructor(reduxStore, request) {
@@ -17,6 +17,12 @@ class ApiClient {
     if (this.authToken) {
       this.reduxStore.dispatch(login());
     }
+
+    // not sure why this is needed, but it seems to be
+    this.logout = this.logout.bind(this);
+
+    // binds all the api call methods that aren't related to auth
+    dataCalls(this);
   }
 
   saveToken(token) {
@@ -53,6 +59,15 @@ class ApiClient {
     })
     .then(resp => resp.json())
     .then(json => this.saveToken(json.token));
+  }
+
+  fetchWithAuth(path, options) {
+    const headers = this.authToken ? { ...options.headers, authentication: `Bearer ${this.authToken}` } : options.headers;
+
+    // TODO: dispatch here and on success/fail *********
+
+    return fetch(`${baseUrl}${path}`, { ...options, headers })
+      .then(resp => resp.json());
   }
 }
 

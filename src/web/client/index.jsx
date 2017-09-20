@@ -30,7 +30,7 @@ const render = (routesFile) => {
     <AppContainer>
       <ContextProvider apiClient={apiClient}>
         <Provider store={store} key="provider">
-          <Router routes={routesFile} render={props => <ReduxAsyncConnect {...props} />} history={browserHistory} />
+          <Router routes={routesFile} render={props => <ReduxAsyncConnect {...props} helpers={{ apiClient }} />} history={browserHistory} />
         </Provider>
       </ContextProvider>
     </AppContainer>,

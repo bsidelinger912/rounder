@@ -1,6 +1,6 @@
 import { asyncConnect } from 'redux-connect';
 
-import { getHomeData } from 'actions/homeActions';
+// import { getHomeData } from 'actions/homeActions';
 
 // Adding the contianer logic here
 function mapStateToProps({ home, global: { loggedIn } }) {
@@ -13,6 +13,14 @@ function mapDispatchToProps() {
 
 export default Component => asyncConnect([
   {
-    promise: ({ store: { dispatch } }) => dispatch(getHomeData()),
+    promise: ({ store: { getState }, helpers: { apiClient } }) => {
+      const { global: { loggedIn } } = getState();
+
+      if (!loggedIn) {
+        return Promise.resolve();
+      }
+
+      return apiClient.getUser();
+    },
   },
 ], mapStateToProps, mapDispatchToProps)(Component);
