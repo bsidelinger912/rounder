@@ -61,7 +61,7 @@ class ApiClient {
     .then(json => this.saveToken(json.token));
   }
 
-  fetchWithAuth(path, options) {
+  fetchWithAuth(path, options = {}) {
     const headers = this.authToken ? { ...options.headers, authentication: `Bearer ${this.authToken}` } : options.headers;
 
     // TODO: dispatch here and on success/fail *********

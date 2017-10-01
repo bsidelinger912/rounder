@@ -33,7 +33,9 @@ app.get('/ping', (req, res) => {
   res.send('pong');
 });
 
+// main routes
 require('./app/routes/auth.js')(app);
+require('./app/routes/user.js')(app);
 
 app.listen(port, () => {
   console.log(`App listening on port: ${port}`);

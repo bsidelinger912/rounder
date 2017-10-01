@@ -13,14 +13,6 @@ function mapDispatchToProps() {
 
 export default Component => asyncConnect([
   {
-    promise: ({ store: { getState }, helpers: { apiClient } }) => {
-      const { global: { loggedIn } } = getState();
-
-      if (!loggedIn) {
-        return Promise.resolve();
-      }
-
-      return Promise.resolve({ user: apiClient.getUser() }); // apiClient.getUser();
-    },
+    promise: ({ helpers: { apiClient } }) => apiClient.getUser(),
   },
 ], mapStateToProps, mapDispatchToProps)(Component);

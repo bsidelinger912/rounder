@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema({
     email: String,
     name: String,
   },
+  artists: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Artist',
+  }],
 });
 
 // methods ======================
