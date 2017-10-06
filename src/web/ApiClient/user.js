@@ -1,6 +1,6 @@
 // user methods
 
-export const getUser = apiClient => () => apiClient.fetchWithAuth('/secret');
+export const getUser = apiClient => () => apiClient.fetchWithAuth('/user');
 
 export const updateUser = apiClient => userData => apiClient.fetchWithAuth('/user', {
   method: 'POST',

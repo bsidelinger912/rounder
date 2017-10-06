@@ -1,10 +1,15 @@
 import cookie from 'isomorphic-cookie';
 
 import { login, logout } from 'actions/authActions';
+import { loading, loaded, error } from 'actions/apiClientActions';
 import dataCalls from './dataCalls';
 
 // TODO: configure for env
 const baseUrl = 'http://localhost:4000';
+
+export function makeRequestKey(url, options) {
+  return JSON.stringify({ url, options });
+}
 
 class ApiClient {
   constructor(reduxStore, request) {
@@ -62,12 +67,18 @@ class ApiClient {
   }
 
   fetchWithAuth(path, options = {}) {
-    const headers = this.authToken ? { ...options.headers, authentication: `Bearer ${this.authToken}` } : options.headers;
+    const requestKey = makeRequestKey(path, options);
+
+    this.reduxStore.dispatch(loading(requestKey));
+
+    const headers = this.authToken ? { ...options.headers, authorization: `Bearer ${this.authToken}` } : options.headers;
 
     // TODO: dispatch here and on success/fail *********
 
     return fetch(`${baseUrl}${path}`, { ...options, headers })
-      .then(resp => resp.json());
+      .then(resp => resp.json())
+      .then(data => this.reduxStore.dispatch(loaded(requestKey, data)))
+      .catch(err => this.reduxStore.dispatch(error(requestKey, err)));
   }
 }
 

@@ -1,10 +1,17 @@
 const passport = require('passport');
 
-// const User = require('../models/user');
+const User = require('../models/user');
 
 module.exports = (app) => {
   app.get('/user', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // console.log(req.user);
-    res.json({ user: req.user });
+    User.findById(req.user._id) // eslint-disable-line no-underscore-dangle
+      .populate('artists', ['name']) // <-- only return the Artists name
+      .exec((err, user) => {
+        if (err) {
+          return res.status(500).json({ error: err });
+        }
+
+        return res.json({ user: { email: user.local.email, artists: user.artists } });
+      });
   });
 };

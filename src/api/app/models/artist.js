@@ -3,10 +3,8 @@ const mongoose = require('mongoose');
 
 // define the schema for our user model
 const artistSchema = mongoose.Schema({
-  local: {
-    name: String,
-    description: String,
-  },
+  name: String,
+  description: String,
 });
 
 // create the model for users and expose it to our app

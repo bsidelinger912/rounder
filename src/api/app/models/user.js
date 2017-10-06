@@ -2,6 +2,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
+require('./artist');
+
 // define the schema for our user model
 const userSchema = mongoose.Schema({
   local: {
