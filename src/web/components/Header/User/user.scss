@@ -1,0 +1,37 @@
+@import "~web/client/scss/mixins";
+
+.main {
+  display: flex;
+  align-items: center;
+}
+
+.circle {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $whiteSmoke;
+  border: 1px solid $dimGrey;
+  color: $darkestGrey;
+  cursor: pointer;
+
+  &:hover {
+    background: $lightGrey;
+  }
+
+  :global(.react-tooltip-lite-down-arrow) {
+    border-bottom: 10px solid $whiteSmoke;
+  }
+
+  :global(.react-tooltip-lite) {
+    background: $whiteSmoke;
+  }
+}
+
+.tooltipHeading {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin: 0 0 20px;
+}

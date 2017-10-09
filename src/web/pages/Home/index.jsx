@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import { Link } from 'react-router';
 
-import container from 'containers/HomeContainer';
+import userContainer from 'containers/UserContainer';
 import SignupOrLogin from 'web/components/SignupOrLogin';
 import Dashboard from './Dashboard';
 
@@ -26,4 +26,4 @@ const Home = ({ loggedIn }) => {
 
 Home.propTypes = propTypes;
 
-export default container(Home);
+export default userContainer(Home);

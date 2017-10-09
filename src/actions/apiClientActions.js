@@ -1,24 +1,19 @@
-import actionTypes from './actionTypes';
-
-export function loading(requestKey) {
+export function loading(type) {
   return {
-    type: actionTypes.API_CLIENT.LOADING,
-    requestKey,
+    type,
   };
 }
 
-export function loaded(requestKey, data) {
+export function loaded(type, data) {
   return {
-    type: actionTypes.API_CLIENT.LOADED,
+    type,
     data,
-    requestKey,
   };
 }
 
-export function error(requestKey, err) {
+export function error(type, err) {
   return {
-    type: actionTypes.API_CLIENT.ERROR,
+    type,
     err,
-    requestKey,
   };
 }

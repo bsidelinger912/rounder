@@ -4,6 +4,8 @@ import { login, logout } from 'actions/authActions';
 import { loading, loaded, error } from 'actions/apiClientActions';
 import dataCalls from './dataCalls';
 
+require('isomorphic-fetch');
+
 // TODO: configure for env
 const baseUrl = 'http://localhost:4000';
 
@@ -66,10 +68,8 @@ class ApiClient {
     .then(json => this.saveToken(json.token));
   }
 
-  fetchWithAuth(path, options = {}) {
-    const requestKey = makeRequestKey(path, options);
-
-    this.reduxStore.dispatch(loading(requestKey));
+  fetchWithAuth(actionTypeGroup, path, options = {}) {
+    this.reduxStore.dispatch(loading(actionTypeGroup.LOADING));
 
     const headers = this.authToken ? { ...options.headers, authorization: `Bearer ${this.authToken}` } : options.headers;
 
@@ -77,8 +77,8 @@ class ApiClient {
 
     return fetch(`${baseUrl}${path}`, { ...options, headers })
       .then(resp => resp.json())
-      .then(data => this.reduxStore.dispatch(loaded(requestKey, data)))
-      .catch(err => this.reduxStore.dispatch(error(requestKey, err)));
+      .then(data => this.reduxStore.dispatch(loaded(actionTypeGroup.SUCCESS, data)))
+      .catch(err => this.reduxStore.dispatch(error(actionTypeGroup.ERROR, err)));
   }
 }
 

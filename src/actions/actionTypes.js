@@ -1,14 +1,10 @@
 const actionTypes = {
-  // depricated
-  HOME: {
-    DATA_SUCCESS: 'HOME.DATA_SUCCESS',
-  },
-
-
-  API_CLIENT: {
-    LOADING: 'API_CLIENT.LOADING',
-    ERROR: 'API_CLIENT.ERROR',
-    LOADED: 'API_CLIENT.LOADED',
+  USER: {
+    DATA: {
+      SUCCESS: 'USER.DATA.SUCCESS',
+      LOADING: 'USER.DATA.LOADING',
+      ERROR: 'USER.DATA.ERROR',
+    },
   },
 
   AUTH: {

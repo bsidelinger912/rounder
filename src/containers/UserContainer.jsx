@@ -1,12 +1,12 @@
 import { asyncConnect } from 'redux-connect';
 
 // Adding the contianer logic here
-function mapStateToProps({ home, global: { loggedIn } }) {
-  return { ...home, loggedIn };
+function mapStateToProps({ user }) {
+  return { ...user };
 }
 
 function mapDispatchToProps() {
-  return { };
+  return {};
 }
 
 export default Component => asyncConnect([

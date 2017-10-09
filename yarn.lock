@@ -2982,7 +2982,7 @@ isomorphic-cookie@^1.2.1:
     cookie "^0.1.2"
     lodash "^4.16.1"
 
-isomorphic-fetch@^2.1.1:
+isomorphic-fetch@^2.1.1, isomorphic-fetch@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
   dependencies:
@@ -4427,6 +4427,12 @@ react-router@3.0.5:
     loose-envify "^1.2.0"
     prop-types "^15.5.6"
     warning "^3.0.0"
+
+react-tooltip-lite@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-tooltip-lite/-/react-tooltip-lite-1.2.1.tgz#14f3c1c84696cd7923fd6406f11d1b63ce55d5de"
+  dependencies:
+    prop-types "^15.5.8"
 
 react@^15.5.4:
   version "15.5.4"

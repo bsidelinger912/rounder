@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import container from 'containers/DashboardContainer';
+import userContainer from 'containers/UserContainer';
 import styles from './dashboard.scss';
 
 const propTypes = {
@@ -47,4 +47,4 @@ export const Welcome = (props, { apiClient }) => (
 Welcome.propTypes = propTypes;
 Welcome.contextTypes = contextTypes;
 
-export default container(Welcome);
+export default userContainer(Welcome);

@@ -1,8 +1,8 @@
-/* reducer to hold global state for things such as menu and auth */
 import actionTypes from 'actions/actionTypes';
 
 const defaultState = {
   loggedIn: false,
+  profile: {},
 };
 
 export default function (state = defaultState, action) {
@@ -11,7 +11,10 @@ export default function (state = defaultState, action) {
       return { ...state, loggedIn: true };
 
     case actionTypes.AUTH.LOGOUT:
-      return { ...state, loggedIn: false };
+      return { ...state, loggedIn: false, profile: {} };
+
+    case actionTypes.USER.DATA.SUCCESS:
+      return { ...state, profile: action.data.user };
 
     default:
       return state;
