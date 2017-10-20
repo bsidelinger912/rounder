@@ -11,10 +11,12 @@ import userContainer from 'containers/UserContainer';
 import styles from './user.scss';
 
 const propTypes = {
-  profile: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    email: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    profile: PropTypes.shape({
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      email: PropTypes.string,
+    }).isRequired,
   }).isRequired,
 };
 
@@ -22,9 +24,9 @@ const contextTypes = {
   apiClient: PropTypes.object,
 };
 
-export const User = ({ profile }, { apiClient }) => {
+export const User = ({ user: { profile, loggedIn } }, { apiClient }) => {
   // TODO: do we need this???
-  if (!profile.email) {
+  if (!loggedIn || !profile.email) {
     return null;
   }
 
@@ -44,8 +46,10 @@ export const User = ({ profile }, { apiClient }) => {
 
   return (
     <div className={styles.main}>
-      <Tooltip content={tooltipContent} className={styles.circle} eventToggle="onClick">
-        {firstLetter}
+      <Tooltip content={tooltipContent} className={styles.tooltip} eventToggle="onClick">
+        <div className={styles.circle}>
+          {firstLetter}
+        </div>
       </Tooltip>
     </div>
   );

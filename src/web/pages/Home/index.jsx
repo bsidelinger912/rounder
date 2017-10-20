@@ -9,10 +9,12 @@ import Dashboard from './Dashboard';
 import styles from './home.scss';
 
 const propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
+  user: PropTypes.shape({
+    loggedIn: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
-const Home = ({ loggedIn }) => {
+const Home = ({ user: { loggedIn } }) => {
   const component = loggedIn ? <Dashboard /> : <SignupOrLogin />;
 
   return (

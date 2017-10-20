@@ -5,6 +5,16 @@
   align-items: center;
 }
 
+.tooltip {
+  :global(.react-tooltip-lite-down-arrow) {
+    border-bottom: 10px solid $whiteSmoke;
+  }
+
+  :global(.react-tooltip-lite) {
+    background: $whiteSmoke;
+  }
+}
+
 .circle {
   width: 35px;
   height: 35px;
@@ -19,14 +29,6 @@
 
   &:hover {
     background: $lightGrey;
-  }
-
-  :global(.react-tooltip-lite-down-arrow) {
-    border-bottom: 10px solid $whiteSmoke;
-  }
-
-  :global(.react-tooltip-lite) {
-    background: $whiteSmoke;
   }
 }
 

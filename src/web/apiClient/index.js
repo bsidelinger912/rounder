@@ -47,7 +47,10 @@ class ApiClient {
       },
     })
     .then(resp => resp.json())
-    .then(json => this.saveToken(json.token));
+    .then((json) => {
+      this.saveToken(json.token);
+      this.getUser();
+    });
   }
 
   logout() {

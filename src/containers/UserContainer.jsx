@@ -1,16 +1,12 @@
-import { asyncConnect } from 'redux-connect';
+import { connect } from 'react-redux';
 
 // Adding the contianer logic here
 function mapStateToProps({ user }) {
-  return { ...user };
+  return { user };
 }
 
 function mapDispatchToProps() {
   return {};
 }
 
-export default Component => asyncConnect([
-  {
-    promise: ({ helpers: { apiClient } }) => apiClient.getUser(),
-  },
-], mapStateToProps, mapDispatchToProps)(Component);
+export default Component => connect(mapStateToProps, mapDispatchToProps)(Component);

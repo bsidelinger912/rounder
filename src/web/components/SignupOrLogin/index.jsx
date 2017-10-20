@@ -57,10 +57,13 @@ export class Signup extends React.Component {
       method = apiClient.login(data);
     }
 
-    method.then(() => this.setState({ loading: false }));
+    // method.then(() => this.setState({ loading: false }));
 
     // TODO: should we handle auth error in state here?
-    method.catch(error => console.error(error));
+    method.catch((error) => {
+      console.error(error);
+      this.setState({ loading: false })
+    });
   }
 
   signup() {

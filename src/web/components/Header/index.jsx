@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import PropTypes from 'prop-types';
-
-import headerContainer from 'containers/HeaderContainer';
+// import PropTypes from 'prop-types';
 
 import User from './User';
 
@@ -10,7 +8,7 @@ import styles from './header.scss';
 
 class Header extends React.Component {
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
+    // loggedIn: PropTypes.bool.isRequired,
   }
 
   constructor() {
@@ -26,8 +24,6 @@ class Header extends React.Component {
   }
 
   render() {
-    const { loggedIn } = this.props;
-
     const navStateClass = (this.state.showMenu) ? styles.showMenu : '';
 
     return (
@@ -47,7 +43,7 @@ class Header extends React.Component {
               <li><Link to="/two">Two</Link></li>
               <li><Link to="/three">Three</Link></li>
             </ul>
-            {loggedIn ? <User /> : null}
+            <User />
           </nav>
         </div>
       </header>
@@ -55,4 +51,4 @@ class Header extends React.Component {
   }
 }
 
-export default headerContainer(Header);
+export default Header;
