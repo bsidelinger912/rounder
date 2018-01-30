@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
 
+const scrapePost = require('./scrapePost');
+
 // const tableSelector = 'body > table > tbody > tr > td > table:nth-child(2) > tbody > tr > td > table:nth-child(2)';
 // const firstMonthSelector = tableSelector + '.catbg'
 
@@ -17,9 +19,9 @@ async function run() {
 
   const monthUrls = await page.$$eval('td.windowbg2 a', as => as.filter(a => a.innerText.includes('Backcountry Trip Reports')).map(a => a.href));
 
-  console.log(monthUrls);
+  // console.log(monthUrls);
 
-  await page.goto(monthUrls[0], {
+  await page.goto(monthUrls[1], {
     waitUntil: 'domcontentloaded',
   });
 
@@ -27,12 +29,15 @@ async function run() {
 
   const postUrls = await page.$$eval(postAnchorSelector, as => as.map(a => a.href));
 
-  console.log(postUrls);
+  // console.log(postUrls);
 
-  await page.goto(postUrls[0], {
+  await page.goto(postUrls[1], {
     waitUntil: 'domcontentloaded',
   });
 
+  const firstPost = await scrapePost(page);
+
+  console.log(firstPost);
 
   /* await page.waitForNavigation({
     waitUntil: 'networkidle5',
