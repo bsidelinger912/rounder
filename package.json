@@ -12,7 +12,8 @@
     "build-integrations": "webpack --config webpack.integrations.config.js -p",
     "start-dev": "NODE_ENV=dev node ./src/web/server/index.js",
     "start": "node src/web/server/index.js",
-    "start-api": "node src/api/index.js"
+    "start-api": "node src/api/index.js",
+    "scrape": "node src/crawlers/tay"
   },
   "author": "Benny Sidelinger",
   "license": "MIT",

@@ -7,7 +7,7 @@ const scrapePost = require('./scrapePost');
 
 async function run() {
   const browser = await puppeteer.launch({
-    headless: false,
+    // headless: false,
   });
 
   const page = await browser.newPage();
@@ -37,7 +37,7 @@ async function run() {
 
   const firstPost = await scrapePost(page);
 
-  console.log(firstPost);
+  console.log(JSON.stringify(firstPost, null, 2));
 
   /* await page.waitForNavigation({
     waitUntil: 'networkidle5',
