@@ -38,6 +38,7 @@ async function run() {
   const firstPost = await scrapePost(page);
 
   console.log(JSON.stringify(firstPost, null, 2));
+  console.log('success');
 
   /* await page.waitForNavigation({
     waitUntil: 'networkidle5',

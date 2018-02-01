@@ -11,8 +11,7 @@ const postTitleSelector = `${postHeadingSelector} b`;
 const postDateSelector = `${postHeadingSelector} span.smalltext`;
 const postTextSelector = `${firstPostSelector} > td:last-child`;
 
-const replyPostsSelector = `${postsTRowsSelector}:not(:first-child) > td > table > tbody > tr > td > table > tbody > tr:first-child`;
-// const replyAuthorsSelector = `${replyPostsSelector} > td:first-child > b`;
+const replyPostsSelector = `${postsTRowsSelector}:not(:first-child) > td > table > tbody > tr > td > table > tbody`;
 
 module.exports = async (page) => {
   const postAuthor = await page.$eval(postAuthorSelector, b => b.innerText);
@@ -22,19 +21,48 @@ module.exports = async (page) => {
   const postImages = await page.$$eval(firstPostImagesSelector, imgs => imgs.map(img => img.src));
 
   const replyPosts = await page.$$eval(replyPostsSelector, replies => replies.map((reply) => {
-    const author = reply.querySelector('td:first-child > b').innerText;
-    const body = reply.querySelector('td:nth-child(2)').innerText.split('»')[1].trim();
-    const date = reply.querySelector('td:nth-child(2) > table > tbody > tr > td > span.smalltext').innerText.split('on:')[1].split('»')[0].trim();
-    // const quotesTexts = reply.querySelectorAll('td:nth-child(2) > div.quote');
-    // const quoteHeaders = reply.querySelectorAll('td:nth-child(2) > div.quoteheader');
-    // const quotes = quotesTexts.map((text, i) => ({ text: text.innerText, header: quoteHeaders[i].innerText }));
+    const author = reply.querySelector('tr:first-child > td:first-child > b').innerText;
+    const date = reply.querySelector('tr:first-child > td:nth-child(2) > table > tbody > tr > td > span.smalltext').innerText.split('on:')[1].split('»')[0].trim();
+    const quotesTexts = reply.querySelectorAll('tr:first-child > td:nth-child(2) > div.quote');
+    const quoteHeaders = reply.querySelectorAll('tr:first-child > td:nth-child(2) > div.quoteheader');
+    const imagesElems = reply.querySelectorAll('tr:nth-child(2) > td > table > tbody > tr > td > img');
+
+    const quotes = [];
+    for (let index = 0; index < quotesTexts.length; index++) { // eslint-disable-line no-plusplus
+      const headerText = quoteHeaders[index].innerText;
+      const headerSplit = headerText.split(' on ');
+      const quoteAuthor = headerSplit[0].split('from:')[1].trim();
+      const quoteDate = headerSplit[1].trim();
+      quotes.push({ author: quoteAuthor, date: quoteDate, text: quotesTexts[index].innerText });
+    }
+
+    const images = [];
+    for (let index = 0; index < imagesElems.length; index++) { // eslint-disable-line no-plusplus
+      const src = imagesElems[index].src;
+      if (src.indexOf('Themes/default/images') < 0) {
+        images.push(src);
+      }
+    }
+
+    // The body text is text right in the td, but quotes and date are also nested within tables/divs
+    const bodyEl = reply.querySelector('tr:first-child > td:nth-child(2)');
+    let child = bodyEl.firstChild;
+    const texts = [];
+    while (child) {
+      if (child.nodeType === 3) {
+        texts.push(child.data.trim());
+      }
+      child = child.nextSibling;
+    }
+    const body = texts.join('').trim();
+
 
     return {
       author,
       body,
       date,
-      // quotes,
-      // images,
+      quotes,
+      images,
     };
   }));
 
