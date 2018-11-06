@@ -1,23 +1,23 @@
 /**
- * @class NewArtist
+ * @class NewProfile
  * @description create a new artist
  */
 
 import React from 'react';
 // import PropTypes from 'prop-types';
 
-import styles from './NewArtist.scss';
+import styles from './newProfile.scss';
 
 const propTypes = {
   // test: PropTypes.number.isRequired,
 };
 
-export const NewArtist = () => (
+export const NewProfile = () => (
   <div className={styles.main}>
-    Create a new artist
+    Create a new Profile
   </div>
 );
 
-NewArtist.propTypes = propTypes;
+NewProfile.propTypes = propTypes;
 
-export default NewArtist;
+export default NewProfile;

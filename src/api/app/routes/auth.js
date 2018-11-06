@@ -31,17 +31,17 @@ module.exports = (app) => {
   app.post('/login', (req, res) => {
     User.findOne({ 'local.email': req.body.email }, (err, user) => {
       if (!user) {
-        res.status(401).json({ message: 'no such user found' });
+        return res.status(401).json({ message: 'no such user found' });
       }
 
       if (user.validPassword(req.body.password)) {
         const payload = { id: user.local.email };
         const token = jwt.sign(payload, jwtOptions.secretOrKey);
 
-        res.json({ success: true, message: 'ok', token });
-      } else {
-        res.status(401).json({ message: 'passwords did not match', code: errorCodes.BAD_PASSWORD });
+        return res.json({ success: true, message: 'ok', token });
       }
+
+      return res.status(401).json({ message: 'passwords did not match', code: errorCodes.BAD_PASSWORD });
     });
   });
 

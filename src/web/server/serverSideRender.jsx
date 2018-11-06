@@ -31,6 +31,9 @@ export default function (req, res) {
 
       const apiClient = new ApiClient(store, req);
 
+      console.log("**********");
+      console.log(renderProps);
+
       loadOnServer({ ...renderProps, store, helpers: { apiClient } }).then(() => {
         let markup = '';
         try {

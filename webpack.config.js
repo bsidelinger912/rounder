@@ -29,7 +29,7 @@ module.exports = {
       'src',
       'node_modules',
     ],
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   module: {
     loaders: [
@@ -78,6 +78,10 @@ module.exports = {
             loader: 'sass-loader',
           },
         ],
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader',
       },
     ],
   },

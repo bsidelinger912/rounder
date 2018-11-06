@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
-require('./artist');
+require('../profile/model');
 
 // define the schema for our user model
 const userSchema = mongoose.Schema({
@@ -28,9 +28,9 @@ const userSchema = mongoose.Schema({
     email: String,
     name: String,
   },
-  artists: [{
+  profiles: [{
     type: mongoose.Schema.ObjectId,
-    ref: 'Artist',
+    ref: 'Profile',
   }],
 });
 

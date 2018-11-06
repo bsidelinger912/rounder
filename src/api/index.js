@@ -5,11 +5,19 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const graphlHTTP = require('express-graphql');
 
 const configDB = require('./config/database.js');
+const schema = require('./app/profile/schema.js');
 
 const port = 4000;
 const app = express();
+
+// to make mongoose's id work with graphql
+const { ObjectId } = mongoose.Types;
+ObjectId.prototype.valueOf = function valueOf() {
+  return this.toString();
+};
 
 // db connection
 mongoose.connect(configDB.url, {
@@ -32,6 +40,11 @@ app.use((req, res, next) => {
 app.get('/ping', (req, res) => {
   res.send('pong');
 });
+
+app.use('/graphql', graphlHTTP({
+  schema,
+  graphiql: true,
+}));
 
 // main routes
 require('./app/routes/auth.js')(app);
