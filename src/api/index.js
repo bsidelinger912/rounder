@@ -7,8 +7,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const graphlHTTP = require('express-graphql');
 
-const configDB = require('./config/database.js');
-const schema = require('./app/profile/schema.js');
+const configDB = require('./config/database');
+const schema = require('./app/schemas');
 
 const port = 4000;
 const app = express();
@@ -41,10 +41,11 @@ app.get('/ping', (req, res) => {
   res.send('pong');
 });
 
-app.use('/graphql', graphlHTTP({
+app.use('/graphql', graphlHTTP((req, res) => ({
   schema,
   graphiql: true,
-}));
+  context: { req, res, foo: 'bar' },
+})));
 
 // main routes
 require('./app/routes/auth.js')(app);

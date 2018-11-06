@@ -7,6 +7,10 @@ const profileSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  /* userIds: [{
+    type: String,
+    // required: true,
+  }],*/
   description: String,
 }, {
   toObject: { virtuals: true },

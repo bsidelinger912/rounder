@@ -1,21 +1,13 @@
 const { makeExecutableSchema } = require('graphql-tools');
-const resolvers = require('./resolvers');
 
-const typeDefs = `
-type Profile {
-  id: ID!
-  name: String!
-  description: String
-}
+const profileResolvers = require('./profile/resolvers');
+const Profile = require('./profile/schema');
 
+const SchemaDefinition = `
 type Query {
   allProfiles: [Profile]
   getProfile(id: ID!): Profile
-}
-
-input ProFileInput {
-  name: String!
-  description: String
+  getUser(id: ID!): User
 }
 
 type Mutation {
@@ -24,6 +16,12 @@ type Mutation {
   deleteProfile(id: ID!): Profile
 }
 `;
+
+const userResolvers = require('./user/resolvers');
+const User = require('./user/schema');
+
+const resolvers = [profileResolvers, userResolvers];
+const typeDefs = [SchemaDefinition, Profile, User];
 
 const schema = makeExecutableSchema({
   typeDefs,

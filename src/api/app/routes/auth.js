@@ -7,7 +7,7 @@ const errorCodes = require('../errorCodes.js');
 const ExtractJwt = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
 
-const User = require('../models/user');
+const User = require('../schemas/user/model');
 
 module.exports = (app) => {
   const jwtOptions = {};
