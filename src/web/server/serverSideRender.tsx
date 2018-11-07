@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -9,15 +9,16 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
+import { Request, Response } from 'express';
 
-import reducers from 'reducers';
+import reducers from 'src/reducers';
 import webRoutes from 'src/web/routes';
 import AuthClient from 'src/web/AuthClient';
 import ContextProvider from 'src/web/ContextProvider';
-import Html from './Html';
-import ErrorPage from './ErrorPage';
+import Html from 'src/web/server/Html';
+import ErrorPage from 'src/web/server/ErrorPage';
 
-export default function (req, res) {
+export default function (req: Request, res: Response) {
   const apolloClient = new ApolloClient({
     ssrMode: true,
     // Remember that this is the interface the SSR server will use to connect to the

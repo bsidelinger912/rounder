@@ -19,7 +19,7 @@ nodeModules['react-router'] = 'commonjs react-router';
 module.exports = Object.assign(baseConfig, {
   target: 'node',
   entry: [
-    'src/web/server/serverSideRender.jsx',
+    'src/web/server/serverSideRender.tsx',
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -38,7 +38,6 @@ module.exports = Object.assign(baseConfig, {
         test: /\.scss$/,
         include: __dirname,
         use: ExtractTextPlugin.extract({
-          // fallbackLoader: 'style-loader',
           use: [
             {
               loader: 'css-loader',
