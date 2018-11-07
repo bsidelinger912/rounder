@@ -28,7 +28,7 @@ module.exports = Object.assign(baseConfig, {
   },
   externals: nodeModules,
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -38,7 +38,7 @@ module.exports = Object.assign(baseConfig, {
         test: /\.scss$/,
         include: __dirname,
         use: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
+          // fallbackLoader: 'style-loader',
           use: [
             {
               loader: 'css-loader',

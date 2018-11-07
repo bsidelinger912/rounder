@@ -10,6 +10,7 @@ module.exports = {
     // 'webpack/hot/only-dev-server',
     'web/client/index.jsx',
   ],
+  mode: 'development',
   devtool: 'source-map',
   output: {
     path: path.join(__dirname, 'dist'),
@@ -29,10 +30,10 @@ module.exports = {
       'src',
       'node_modules',
     ],
-    extensions: ['.js', '.jsx'], // , '.ts', '.tsx'],
+    extensions: ['.mjs', '.js', '.jsx'], // , '.ts', '.tsx'],
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
