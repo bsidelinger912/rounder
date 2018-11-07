@@ -1,57 +1,77 @@
 import 'isomorphic-fetch';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
+import { StaticRouter } from 'react-router';
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
 import thunk from 'redux-thunk';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider, getDataFromTree } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import cookie from 'isomorphic-cookie';
 
 import reducers from 'reducers';
-import routes from 'web/routes';
-import ApiClient from 'web/apiClient';
-import ContextProvider from 'web/ContextProvider';
+import webRoutes from 'web/routes';
+// import ApiClient from 'web/apiClient';
+import { login } from 'actions/authActions';
+
+// import ContextProvider from 'web/ContextProvider';
 import Html from './Html';
 
 export default function (req, res) {
-  match({ routes, location: req.url }, (err, redirect, renderProps) => {
-    // TODO: handle errors, redirects, etc here
-    if (err) {
-      // there was an error somewhere during route matching
-      res.status(500).send(err.message);
-    } else if (redirect) {
-      // we haven't talked about `onEnter` hooks on routes, but before a
-      // route is entered, it can redirect. Here we handle on the server.
-      res.redirect(redirect.pathname + redirect.search);
-    } else if (renderProps) {
-      const store = createStore(
-        combineReducers(reducers),
-        compose(applyMiddleware(thunk)),
-      );
+  const apolloClient = new ApolloClient({
+    ssrMode: true,
+    // Remember that this is the interface the SSR server will use to connect to the
+    // API server, so we need to ensure it isn't firewalled, etc
+    link: createHttpLink({
+      uri: 'http://localhost:4000',
+      // credentials: 'same-origin',
+      headers: {
+        cookie: req.header('Cookie'),
+      },
+    }),
+    cache: new InMemoryCache(),
+  });
 
-      const apiClient = new ApiClient(store, req);
+  const store = createStore(
+    combineReducers(reducers),
+    compose(applyMiddleware(thunk)),
+  );
 
-      loadOnServer({ ...renderProps, store, helpers: { apiClient } }).then(() => {
-        let markup = '';
-        try {
-          markup = ReactDOMServer.renderToString(
-            <ContextProvider apiClient={apiClient}>
-              <Provider store={store} key="provider">
-                <RouterContext {...renderProps} render={props => <ReduxAsyncConnect {...props} />} />
-              </Provider>
-            </ContextProvider>);
-        } catch (error) {
-          return res.status(500).send(error.message);
-        }
+  // TODO: update how this works, but for now it'll tell the store we're logged in
+  /* const authToken = cookie.load('jwt', req);
 
-        const html = ReactDOMServer.renderToStaticMarkup(
-          <Html {...{ markup, currentState: store.getState() }} />);
+  // since we need to create the store before we creat the auth client,
+  // we'll dispatch a login here on start if they've got a jwt cookie
+  if (authToken) {
+    store.dispatch(login());
+  }*/
 
-        return res.send(`<!DOCTYPE html>${html}`);
-      });
-    } else {
-      // no errors, no redirect, we just didn't match anything
-      res.status(404).send('Not Found');
-    }
+  // TODO: WTF is this????
+  const context = {};
+
+  // The client-side App will instead use <BrowserRouter>
+  const App = (
+    <ApolloProvider client={apolloClient}>
+      <Provider store={store} key="provider">
+        <StaticRouter location={req.url} context={context}>
+          {webRoutes}
+        </StaticRouter>
+      </Provider>
+    </ApolloProvider>
+  );
+
+  getDataFromTree(App).then(() => {
+    // We are ready to render for real
+    const markup = ReactDOMServer.renderToString(App);
+    const initialState = apolloClient.extract();
+
+    const html = ReactDOMServer.renderToStaticMarkup(
+      <Html {...{ markup, initialState }} />);
+
+    res.status(200);
+    res.send(`<!DOCTYPE html>${html}`);
+    res.end();
   });
 }

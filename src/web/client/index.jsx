@@ -4,20 +4,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, browserHistory } from 'react-router';
-import { ReduxAsyncConnect } from 'redux-connect';
+
+// TODO: use browser router????
+import { BrowserRouter } from 'react-router-dom';
+
 import thunk from 'redux-thunk';
 import { AppContainer } from 'react-hot-loader';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import reducers from 'reducers';
-import routes from 'web/routes';
+import webRoutes from 'web/routes';
 import ApiClient from 'web/apiClient';
 import ContextProvider from 'web/ContextProvider';
 
 const apolloClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
 });
 
 const store = createStore(
@@ -31,13 +35,13 @@ const store = createStore(
 
 const apiClient = new ApiClient(store);
 
-const render = (routesFile) => {
+const render = (routes) => {
   ReactDOM.render(
     <AppContainer>
       <ContextProvider apiClient={apiClient}>
         <ApolloProvider client={apolloClient}>
           <Provider store={store} key="provider">
-            <Router routes={routesFile} render={props => <ReduxAsyncConnect {...props} helpers={{ apiClient }} />} history={browserHistory} />
+            <BrowserRouter>{routes}</BrowserRouter>
           </Provider>
         </ApolloProvider>
       </ContextProvider>
@@ -46,7 +50,7 @@ const render = (routesFile) => {
   );
 };
 
-render(routes);
+render(webRoutes);
 
 // Hot Module Replacement API
 if (module.hot) {

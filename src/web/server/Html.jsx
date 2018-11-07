@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   markup: PropTypes.string.isRequired,
-  currentState: PropTypes.object.isRequired,
+  initialState: PropTypes.object.isRequired,
 };
 
-const Html = ({ markup, currentState }) => {
-  const scriptContents = `window.__data = ${JSON.stringify(currentState).replace(/<\//g, '<\\/')};`;
+const Html = ({ markup, initialState }) => {
+  // const scriptContents = `window.__data = ${JSON.stringify(currentState).replace(/<\//g, '<\\/')};`;
+  const scriptContents = `window.__APOLLO_STATE__=${JSON.stringify(initialState).replace(/</g, '\\u003c')};`;
 
   return (
     <html lang="en-US">

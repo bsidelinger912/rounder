@@ -9,8 +9,6 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 // import { Link } from 'react-router';
 
-// import userContainer from 'containers/UserContainer';
-
 import ProfileForm from 'web/components/ProfileForm';
 
 import styles from './dashboard.scss';
