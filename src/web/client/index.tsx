@@ -4,8 +4,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-
-// TODO: use browser router????
 import { BrowserRouter } from 'react-router-dom';
 
 import thunk from 'redux-thunk';
@@ -54,7 +52,7 @@ render(webRoutes);
 
 // Hot Module Replacement API
 if ((module as any).hot) {
-  (module as any).hot.accept('src/web/routes.jsx', () => {
+  (module as any).hot.accept('src/web/routes', () => {
     const nextRoutes = require('src/web/routes').default; // eslint-disable-line global-require
     render(nextRoutes);
   });

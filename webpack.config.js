@@ -29,7 +29,7 @@ module.exports = {
     alias: {
       'src': path.resolve('./src')
     },
-    extensions: ['.mjs', '.js', '.jsx'], // , '.ts', '.tsx'],
+    extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx'],
   },
   module: {
     rules: [
