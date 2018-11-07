@@ -8,30 +8,17 @@ import { Router, browserHistory } from 'react-router';
 import { ReduxAsyncConnect } from 'redux-connect';
 import thunk from 'redux-thunk';
 import { AppContainer } from 'react-hot-loader';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
 
 import reducers from 'reducers';
 import routes from 'web/routes';
 import ApiClient from 'web/apiClient';
 import ContextProvider from 'web/ContextProvider';
 
-import ApolloClient from 'apollo-boost';
-import gql from 'graphql-tag';
-
-const appolloClient = new ApolloClient({
+const apolloClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
 });
-
-appolloClient.query({
-  query: gql`
-    {
-      getUser(id: "5bdbe0e075d95e8db4a80bfb") {
-        email
-        id
-      }
-    }
-  `,
-})
-.then(result => console.error(result));
 
 const store = createStore(
   combineReducers(reducers),
@@ -48,9 +35,11 @@ const render = (routesFile) => {
   ReactDOM.render(
     <AppContainer>
       <ContextProvider apiClient={apiClient}>
-        <Provider store={store} key="provider">
-          <Router routes={routesFile} render={props => <ReduxAsyncConnect {...props} helpers={{ apiClient }} />} history={browserHistory} />
-        </Provider>
+        <ApolloProvider client={apolloClient}>
+          <Provider store={store} key="provider">
+            <Router routes={routesFile} render={props => <ReduxAsyncConnect {...props} helpers={{ apiClient }} />} history={browserHistory} />
+          </Provider>
+        </ApolloProvider>
       </ContextProvider>
     </AppContainer>,
     document.getElementById('react-root'),

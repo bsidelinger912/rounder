@@ -29,7 +29,7 @@ module.exports = {
       'src',
       'node_modules',
     ],
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx'], // , '.ts', '.tsx'],
   },
   module: {
     loaders: [
@@ -79,10 +79,10 @@ module.exports = {
           },
         ],
       },
-      {
+      /*{
         test: /\.tsx?$/,
         loader: 'awesome-typescript-loader',
-      },
+      },*/
     ],
   },
   plugins: [
