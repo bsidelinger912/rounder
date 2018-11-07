@@ -14,6 +14,25 @@ import routes from 'web/routes';
 import ApiClient from 'web/apiClient';
 import ContextProvider from 'web/ContextProvider';
 
+import ApolloClient from 'apollo-boost';
+import gql from 'graphql-tag';
+
+const appolloClient = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+});
+
+appolloClient.query({
+  query: gql`
+    {
+      getUser(id: "5bdbe0e075d95e8db4a80bfb") {
+        email
+        id
+      }
+    }
+  `,
+})
+.then(result => console.error(result));
+
 const store = createStore(
   combineReducers(reducers),
   window.__data, // eslint-disable-line no-underscore-dangle
