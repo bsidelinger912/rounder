@@ -19,10 +19,10 @@ const propTypes = {
 };
 
 const contextTypes = {
-  apiClient: PropTypes.object,
+  authClient: PropTypes.object,
 };
 
-export const Welcome = (props, { apiClient }) => {
+export const Welcome = (props, { authClient }) => {
   return (
     <Query
       query={gql`
@@ -62,7 +62,7 @@ export const Welcome = (props, { apiClient }) => {
             {content}
 
             <div>
-              you are logged in <a onClick={() => apiClient && apiClient.logout}>logout</a>
+              you are logged in <a onClick={authClient.logout}>logout</a>
             </div>
           </div>
         );

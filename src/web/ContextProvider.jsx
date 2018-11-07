@@ -1,6 +1,6 @@
 /**
  * @class ContextProvider
- * @description provides global context such as instance of ApiClient
+ * @description provides global context such as instance of AuthClient
  */
 
 import { Component, Children } from 'react';
@@ -8,19 +8,19 @@ import PropTypes from 'prop-types';
 
 export default class ContextProvider extends Component {
   static propTypes = {
-    apiClient: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    authClient: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     children: PropTypes.element.isRequired,
   }
 
   static childContextTypes = {
-    apiClient: PropTypes.object,
+    authClient: PropTypes.object,
   }
 
   getChildContext() {
-    const { apiClient } = this.props;
+    const { authClient } = this.props;
 
     return {
-      apiClient,
+      authClient,
     };
   }
 

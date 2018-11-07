@@ -1,8 +1,6 @@
 import cookie from 'isomorphic-cookie';
 
 import { login, logout } from 'actions/authActions';
-import { loading, loaded, error } from 'actions/apiClientActions';
-import dataCalls from './dataCalls';
 
 require('isomorphic-fetch');
 
@@ -13,7 +11,7 @@ export function makeRequestKey(url, options) {
   return JSON.stringify({ url, options });
 }
 
-class ApiClient {
+class AuthClient {
   constructor(reduxStore, request) {
     // request is only defined on the server
     this.authToken = cookie.load('jwt', request);
@@ -27,9 +25,6 @@ class ApiClient {
 
     // not sure why this is needed, but it seems to be
     this.logout = this.logout.bind(this);
-
-    // binds all the api call methods that aren't related to auth
-    dataCalls(this);
   }
 
   saveToken(token) {
@@ -49,7 +44,6 @@ class ApiClient {
     .then(resp => resp.json())
     .then((json) => {
       this.saveToken(json.token);
-      this.getUser();
     });
   }
 
@@ -70,19 +64,6 @@ class ApiClient {
     .then(resp => resp.json())
     .then(json => this.saveToken(json.token));
   }
-
-  fetchWithAuth(actionTypeGroup, path, options = {}) {
-    this.reduxStore.dispatch(loading(actionTypeGroup.LOADING));
-
-    const headers = this.authToken ? { ...options.headers, authorization: `Bearer ${this.authToken}` } : options.headers;
-
-    // TODO: dispatch here and on success/fail *********
-
-    return fetch(`${baseUrl}${path}`, { ...options, headers })
-      .then(resp => resp.json())
-      .then(data => this.reduxStore.dispatch(loaded(actionTypeGroup.SUCCESS, data)))
-      .catch(err => this.reduxStore.dispatch(error(actionTypeGroup.ERROR, err)));
-  }
 }
 
-export default ApiClient;
+export default AuthClient;

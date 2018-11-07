@@ -30,7 +30,7 @@ export class Signup extends React.Component {
   }
 
   static contextTypes = {
-    apiClient: PropTypes.object,
+    authClient: PropTypes.object,
   };
 
   constructor() {
@@ -46,15 +46,15 @@ export class Signup extends React.Component {
   }
 
   handleSubmit(data) {
-    const { apiClient } = this.context;
+    const { authClient } = this.context;
     let method;
 
     this.setState({ loading: true });
 
     if (this.action === 'signup') {
-      method = apiClient.signup(data);
+      method = authClient.signup(data);
     } else {
-      method = apiClient.login(data);
+      method = authClient.login(data);
     }
 
     // method.then(() => this.setState({ loading: false }));

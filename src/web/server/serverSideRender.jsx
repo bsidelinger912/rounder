@@ -9,14 +9,11 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
-import cookie from 'isomorphic-cookie';
 
 import reducers from 'reducers';
 import webRoutes from 'web/routes';
-// import ApiClient from 'web/apiClient';
-import { login } from 'actions/authActions';
-
-// import ContextProvider from 'web/ContextProvider';
+import AuthClient from 'web/AuthClient';
+import ContextProvider from 'web/ContextProvider';
 import Html from './Html';
 import ErrorPage from './ErrorPage';
 
@@ -40,14 +37,7 @@ export default function (req, res) {
     compose(applyMiddleware(thunk)),
   );
 
-  // TODO: update how this works, but for now it'll tell the store we're logged in
-  const authToken = cookie.load('jwt', req);
-
-  // since we need to create the store before we creat the auth client,
-  // we'll dispatch a login here on start if they've got a jwt cookie
-  if (authToken) {
-    store.dispatch(login());
-  }
+  const authClient = new AuthClient(store, req);
 
   // TODO: WTF is this????
   const context = {};
@@ -55,11 +45,13 @@ export default function (req, res) {
   // The client-side App will instead use <BrowserRouter>
   const App = (
     <ApolloProvider client={apolloClient}>
-      <Provider store={store} key="provider">
-        <StaticRouter location={req.url} context={context}>
-          {webRoutes}
-        </StaticRouter>
-      </Provider>
+      <ContextProvider authClient={authClient}>
+        <Provider store={store} key="provider">
+          <StaticRouter location={req.url} context={context}>
+            {webRoutes}
+          </StaticRouter>
+        </Provider>
+      </ContextProvider>
     </ApolloProvider>
   );
 
@@ -75,8 +67,8 @@ export default function (req, res) {
     res.send(`<!DOCTYPE html>${html}`);
     res.end();
   }).catch((err) => {
-    console.error('*********** error getting data from tree');
-    console.error(err);
+    console.error('*********** error getting data from tree'); // eslint-disable-line
+    console.error(err); // eslint-disable-line
 
     const html = ReactDOMServer.renderToStaticMarkup(<ErrorPage />);
 

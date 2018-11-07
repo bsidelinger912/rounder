@@ -21,10 +21,10 @@ const propTypes = {
 };
 
 const contextTypes = {
-  apiClient: PropTypes.object,
+  authClient: PropTypes.object,
 };
 
-export const User = ({ user: { profile, loggedIn } }, { apiClient }) => {
+export const User = ({ user: { profile, loggedIn } }, { authClient }) => {
   // TODO: do we need this???
   if (!loggedIn || !profile.email) {
     return null;
@@ -40,7 +40,7 @@ export const User = ({ user: { profile, loggedIn } }, { apiClient }) => {
         {profile.email}
       </div>
 
-      <button onClick={() => apiClient && apiClient.logout} className={styles.logout}>Logout</button>
+      <button onClick={authClient.logout} className={styles.logout}>Logout</button>
     </div>
   );
 

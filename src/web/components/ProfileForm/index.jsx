@@ -25,10 +25,6 @@ export class ProfileForm extends React.Component {
     // test: PropTypes.number.isRequired,
   }
 
-  static contextTypes = {
-    apiClient: PropTypes.object,
-  };
-
   constructor() {
     super();
 

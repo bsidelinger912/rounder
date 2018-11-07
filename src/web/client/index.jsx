@@ -16,7 +16,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import reducers from 'reducers';
 import webRoutes from 'web/routes';
-import ApiClient from 'web/apiClient';
+import AuthClient from 'web/authClient';
 import ContextProvider from 'web/ContextProvider';
 
 const apolloClient = new ApolloClient({
@@ -33,12 +33,12 @@ const store = createStore(
   ),
 );
 
-const apiClient = new ApiClient(store);
+const authClient = new AuthClient(store);
 
 const render = (routes) => {
   ReactDOM.render(
     <AppContainer>
-      <ContextProvider apiClient={apiClient}>
+      <ContextProvider authClient={authClient}>
         <ApolloProvider client={apolloClient}>
           <Provider store={store} key="provider">
             <BrowserRouter>{routes}</BrowserRouter>
