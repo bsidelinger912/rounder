@@ -21,7 +21,7 @@ import ContextProvider from 'web/ContextProvider';
 
 const apolloClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
-  cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
+  cache: new InMemoryCache().restore(window.__APOLLO_STATE__), // eslint-disable-line no-underscore-dangle
 });
 
 const store = createStore(

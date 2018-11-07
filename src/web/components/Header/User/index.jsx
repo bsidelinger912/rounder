@@ -40,7 +40,7 @@ export const User = ({ user: { profile, loggedIn } }, { apiClient }) => {
         {profile.email}
       </div>
 
-      <button onClick={apiClient.logout} className={styles.logout}>Logout</button>
+      <button onClick={() => apiClient && apiClient.logout} className={styles.logout}>Logout</button>
     </div>
   );
 

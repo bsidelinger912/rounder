@@ -62,7 +62,7 @@ export const Welcome = (props, { apiClient }) => {
             {content}
 
             <div>
-              you are logged in <a onClick={apiClient.logout}>logout</a>
+              you are logged in <a onClick={() => apiClient && apiClient.logout}>logout</a>
             </div>
           </div>
         );

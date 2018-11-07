@@ -18,6 +18,7 @@ import { login } from 'actions/authActions';
 
 // import ContextProvider from 'web/ContextProvider';
 import Html from './Html';
+import ErrorPage from './ErrorPage';
 
 export default function (req, res) {
   const apolloClient = new ApolloClient({
@@ -25,8 +26,8 @@ export default function (req, res) {
     // Remember that this is the interface the SSR server will use to connect to the
     // API server, so we need to ensure it isn't firewalled, etc
     link: createHttpLink({
-      uri: 'http://localhost:4000',
-      // credentials: 'same-origin',
+      uri: 'http://localhost:4000/graphql',
+      credentials: 'same-origin',
       headers: {
         cookie: req.header('Cookie'),
       },
@@ -40,13 +41,13 @@ export default function (req, res) {
   );
 
   // TODO: update how this works, but for now it'll tell the store we're logged in
-  /* const authToken = cookie.load('jwt', req);
+  const authToken = cookie.load('jwt', req);
 
   // since we need to create the store before we creat the auth client,
   // we'll dispatch a login here on start if they've got a jwt cookie
   if (authToken) {
     store.dispatch(login());
-  }*/
+  }
 
   // TODO: WTF is this????
   const context = {};
@@ -69,6 +70,15 @@ export default function (req, res) {
 
     const html = ReactDOMServer.renderToStaticMarkup(
       <Html {...{ markup, initialState }} />);
+
+    res.status(200);
+    res.send(`<!DOCTYPE html>${html}`);
+    res.end();
+  }).catch((err) => {
+    console.error('*********** error getting data from tree');
+    console.error(err);
+
+    const html = ReactDOMServer.renderToStaticMarkup(<ErrorPage />);
 
     res.status(200);
     res.send(`<!DOCTYPE html>${html}`);
