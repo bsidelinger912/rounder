@@ -2,7 +2,6 @@ const Profile = `
 type Profile {
   id: ID!
   name: String!
-  userIds: [String]
   description: String
 }
 
