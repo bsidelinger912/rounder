@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Modal from 'web/components/Modal';
+import Modal from 'src/web/components/Modal';
 
 import styles from './imageViewerItem.scss';
 

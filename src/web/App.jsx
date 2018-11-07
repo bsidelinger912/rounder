@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Header from 'web/components/Header';
-import fetchUserContainer from 'containers/FetchUserContainer';
+import Header from 'src/web/components/Header';
+import fetchUserContainer from 'src/containers/FetchUserContainer';
 
 import './client/scss/base.global.scss';
 import styles from './app.scss';

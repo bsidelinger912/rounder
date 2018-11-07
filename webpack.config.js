@@ -8,7 +8,7 @@ module.exports = {
     'react-hot-loader/patch',
     // 'webpack-dev-server/client?http://localhost:8080',
     // 'webpack/hot/only-dev-server',
-    'web/client/index.jsx',
+    './web/client/index.tsx',
   ],
   mode: 'development',
   devtool: 'source-map',
@@ -26,10 +26,9 @@ module.exports = {
     },
   },
   resolve: {
-    modules: [
-      'src',
-      'node_modules',
-    ],
+    alias: {
+      'src': path.resolve('./src')
+    },
     extensions: ['.mjs', '.js', '.jsx'], // , '.ts', '.tsx'],
   },
   module: {
@@ -80,10 +79,10 @@ module.exports = {
           },
         ],
       },
-      /*{
+      {
         test: /\.tsx?$/,
         loader: 'awesome-typescript-loader',
-      },*/
+      },
     ],
   },
   plugins: [

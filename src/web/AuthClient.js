@@ -1,6 +1,6 @@
 import cookie from 'isomorphic-cookie';
 
-import { login, logout } from 'actions/authActions';
+import { login, logout } from 'src/actions/authActions';
 
 require('isomorphic-fetch');
 

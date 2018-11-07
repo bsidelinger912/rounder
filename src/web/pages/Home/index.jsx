@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import { Link } from 'react-router';
 
-import userContainer from 'containers/UserContainer';
-import SignupOrLogin from 'web/components/SignupOrLogin';
+import userContainer from 'src/containers/UserContainer';
+import SignupOrLogin from 'src/web/components/SignupOrLogin';
 import Dashboard from './Dashboard';
 
 import styles from './home.scss';

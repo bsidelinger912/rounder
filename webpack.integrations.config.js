@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   context: path.resolve(__dirname, 'src'),
 
-  entry: 'web/legacyIntegrations/newPost.jsx',
+  entry: 'src/web/legacyIntegrations/newPost.jsx',
   output: {
     path: path.join(__dirname, 'src/api/static'),
     filename: 'integrationBundle.js',

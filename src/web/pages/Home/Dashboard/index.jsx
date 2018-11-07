@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import ProfileForm from 'web/components/ProfileForm';
+import ProfileForm from 'src/web/components/ProfileForm';
 
 import styles from './dashboard.scss';
 

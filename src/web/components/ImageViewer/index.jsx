@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Carousel from 'web/components/Carousel';
+import Carousel from 'src/web/components/Carousel';
 import ImageViewerItem from './ImageViewerItem';
 
 import styles from './imageViewer.scss';

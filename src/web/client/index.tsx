@@ -1,7 +1,7 @@
 /* eslint-env browser */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
@@ -14,28 +14,28 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-import reducers from 'reducers';
+import reducers from 'src/reducers';
 import webRoutes from 'src/web/routes';
-import AuthClient from 'src/web/authClient';
+import AuthClient from 'src/web/AuthClient';
 import ContextProvider from 'src/web/ContextProvider';
 
 const apolloClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
-  cache: new InMemoryCache().restore(window.__APOLLO_STATE__), // eslint-disable-line no-underscore-dangle
+  cache: new InMemoryCache().restore((window as any).__APOLLO_STATE__), // eslint-disable-line no-underscore-dangle
 });
 
 const store = createStore(
   combineReducers(reducers),
-  window.__data, // eslint-disable-line no-underscore-dangle
+  (window as any).__data, // eslint-disable-line no-underscore-dangle
   compose(
     applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension() : f => f,
+    (window as any).devToolsExtension ? (window as any).devToolsExtension() : (f: any) => f,
   ),
 );
 
 const authClient = new AuthClient(store);
 
-const render = (routes) => {
+const render = (routes: JSX.Element) => {
   ReactDOM.render(
     <AppContainer>
       <ContextProvider authClient={authClient}>
@@ -53,8 +53,8 @@ const render = (routes) => {
 render(webRoutes);
 
 // Hot Module Replacement API
-if (module.hot) {
-  module.hot.accept('src/web/routes.jsx', () => {
+if ((module as any).hot) {
+  (module as any).hot.accept('src/web/routes.jsx', () => {
     const nextRoutes = require('src/web/routes').default; // eslint-disable-line global-require
     render(nextRoutes);
   });

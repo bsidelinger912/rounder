@@ -11,9 +11,9 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 
 import reducers from 'reducers';
-import webRoutes from 'web/routes';
-import AuthClient from 'web/AuthClient';
-import ContextProvider from 'web/ContextProvider';
+import webRoutes from 'src/web/routes';
+import AuthClient from 'src/web/AuthClient';
+import ContextProvider from 'src/web/ContextProvider';
 import Html from './Html';
 import ErrorPage from './ErrorPage';
 

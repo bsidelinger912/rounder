@@ -1,3 +1,3 @@
-export Form from './Form';
-export Text from './Text';
-export Field from './Field';
+export { default as Form} from './Form';
+export { default as Text } from './Text';
+export { default as Field } from './Field';

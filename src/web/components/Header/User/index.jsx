@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from 'react-tooltip-lite';
 
-import userContainer from 'containers/UserContainer';
+import userContainer from 'src/containers/UserContainer';
 import styles from './user.scss';
 
 const propTypes = {

@@ -19,7 +19,7 @@ nodeModules['react-router'] = 'commonjs react-router';
 module.exports = Object.assign(baseConfig, {
   target: 'node',
   entry: [
-    'web/server/serverSideRender.jsx',
+    'src/web/server/serverSideRender.jsx',
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -52,6 +52,10 @@ module.exports = Object.assign(baseConfig, {
             },
           ],
         }),
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader',
       },
     ],
   },

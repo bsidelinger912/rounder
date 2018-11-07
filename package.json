@@ -9,16 +9,19 @@
     "watch-client": "webpack-dev-server --config webpack.config.js",
     "watch-server": "webpack --config webpack.server.config.js",
     "build": "webpack --config webpack.config.js -p",
+    "build-test": "webpack --config webpack.config.js",
     "build-integrations": "webpack --config webpack.integrations.config.js -p",
     "start-dev": "NODE_ENV=dev node ./src/web/server/index.js",
     "start": "node src/web/server/index.js",
     "start-api": "node src/api/index.js",
-    "scrape": "node src/crawlers/tay"
+    "scrape": "node src/crawlers/tay",
+    "ts-client": "tsc src/web/client/index.tsx"
   },
   "author": "Benny Sidelinger",
   "license": "MIT",
   "repository": {},
   "dependencies": {
+    "@types/graphql": "^14.0.3",
     "apollo-boost": "^0.1.20",
     "awesome-typescript-loader": "^5.2.1",
     "aws-sdk": "^2.94.0",
@@ -62,6 +65,11 @@
     "shiitake": "^2.0.1"
   },
   "devDependencies": {
+    "@types/node": "^10.12.3",
+    "@types/react": "^16.4.18",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-redux": "^6.0.9",
+    "@types/react-router-dom": "^4.3.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",

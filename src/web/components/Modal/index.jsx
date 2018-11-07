@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Portal from 'web/components/Portal';
+import Portal from 'src/web/components/Portal';
 
 import styles from './modal.scss';
 
