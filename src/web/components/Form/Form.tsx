@@ -3,13 +3,13 @@
  * @description
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import serialize from 'form-serialize';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
+const serialize = require('form-serialize');
 
 // import styles from './form.scss';
 
-export class Form extends React.Component {
+export class Form extends React.Component<any, any> {
   static propTypes = {
     validation: PropTypes.func,
     onSubmit: PropTypes.func,
@@ -25,8 +25,10 @@ export class Form extends React.Component {
     validationErrors: PropTypes.object,
   }
 
-  constructor() {
-    super();
+  private formElement: any
+
+  constructor(props: any) {
+    super(props);
 
     this.formElement = null;
 
@@ -39,7 +41,7 @@ export class Form extends React.Component {
     return { validationErrors: this.state.validationErrors };
   }
 
-  onSubmit(e) {
+  onSubmit(e: any) {
     e.preventDefault();
     this.setState({ validationErrors: {} });
 

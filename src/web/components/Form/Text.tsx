@@ -3,12 +3,12 @@
  * @description
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 // import styles from './className.scss';
 
-export class Text extends React.Component {
+export class Text extends React.Component<any, any> {
   static propTypes = {
     value: PropTypes.string,
   }

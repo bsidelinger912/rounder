@@ -3,14 +3,15 @@
  * @description first thing you see after logging in
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import ProfileForm from 'src/web/components/ProfileForm';
+import SingleProfileDashboard from 'src/web/pages/Home/Dashboard/SingleProfile';
 
-import styles from './dashboard.scss';
+const styles = require('./dashboard.scss');
 
 const propTypes = {};
 
@@ -18,7 +19,7 @@ const contextTypes = {
   authClient: PropTypes.object,
 };
 
-export const Welcome = (props, { authClient }) => (
+export const Welcome: React.SFC<any> = (props, { authClient }) => (
   <Query
     query={gql`
       {
@@ -37,18 +38,29 @@ export const Welcome = (props, { authClient }) => (
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
 
-      const content = data.getUser.profiles.length > 0 ? (
-        <div>you have profiles</div>
-      ) : (
-        <div>
-          <h4>To get started, create your first profile</h4>
-          <p>
-            A profile can be an individual or a group
-          </p>
+      let content;
 
-          <ProfileForm />
-        </div>
-      );
+      if (data.getUser.profiles.length > 1) {
+        content = (
+          <div>Multi profile dashboard coming....</div>
+        );
+      } else if (data.getUser.profiles.length > 0) {
+        content = (
+          <SingleProfileDashboard profile={data.getUser.profiles[0]} />
+        );
+      } else {
+        content = (
+          <div>
+            <h4>To get started, create your first profile</h4>
+            <p>
+              A profile can be an individual or a group
+            </p>
+
+            <ProfileForm />
+          </div>
+        );
+      }
+
 
       return (
         <div className={styles.main}>

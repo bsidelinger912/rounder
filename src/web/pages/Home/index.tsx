@@ -1,10 +1,9 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-// import { Link } from 'react-router';
 
 import userContainer from 'src/containers/UserContainer';
-// import SignupOrLogin from 'src/web/components/SignupOrLogin';
-// import Dashboard from './Dashboard';
+import SignupOrLogin from 'src/web/components/SignupOrLogin';
+import Dashboard from './Dashboard';
 
 const styles = require('./home.scss');
 
@@ -15,7 +14,7 @@ const propTypes = {
 };
 
 const Home: React.SFC<any> = ({ user: { loggedIn } }) => {
-  const component = <div>hello</div>; // loggedIn ? <Dashboard /> : <SignupOrLogin />;
+  const component = loggedIn ? <Dashboard /> : <SignupOrLogin />;
 
   return (
     <main className={styles.main}>

@@ -3,15 +3,15 @@
  * @description
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+// import * as PropTypes from 'prop-types';
 
 import { Form, Text, Field } from '../Form';
 
-import styles from './profileForm.scss';
+const styles = require('./profileForm.scss');
 
-function validate(data) {
-  const errors = {};
+function validate(data: any) {
+  const errors: any = {};
 
   if (!data.name) {
     errors.email = 'Name is Required';
@@ -20,20 +20,20 @@ function validate(data) {
   return errors;
 }
 
-export class ProfileForm extends React.Component {
+export class ProfileForm extends React.Component<any, any> {
   static propTypes = {
     // test: PropTypes.number.isRequired,
   }
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
 
     this.state = { loading: false };
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(data) {
+  handleSubmit(data: any) {
     console.log(data);
   }
 

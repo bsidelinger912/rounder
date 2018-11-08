@@ -3,15 +3,15 @@
  * @description
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 import { Form, Text, Field } from '../Form';
 
-import styles from './signupOrLogin.scss';
+const styles = require('./signupOrLogin.scss');
 
-function validate(data) {
-  const errors = {};
+function validate(data: any) {
+  const errors: any = {};
 
   if (!data.email) {
     errors.email = 'Email is Required';
@@ -24,7 +24,7 @@ function validate(data) {
   return errors;
 }
 
-export class Signup extends React.Component {
+export class Signup extends React.Component<any, any> {
   static propTypes = {
     // test: PropTypes.number.isRequired,
   }
@@ -32,9 +32,11 @@ export class Signup extends React.Component {
   static contextTypes = {
     authClient: PropTypes.object,
   };
+  
+  private action: string;
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
 
     this.action = 'login';
 
@@ -45,7 +47,7 @@ export class Signup extends React.Component {
     this.signup = this.signup.bind(this);
   }
 
-  handleSubmit(data) {
+  handleSubmit(data:any) {
     const { authClient } = this.context;
     let method;
 
@@ -60,7 +62,7 @@ export class Signup extends React.Component {
     // method.then(() => this.setState({ loading: false }));
 
     // TODO: should we handle auth error in state here?
-    method.catch((error) => {
+    method.catch((error: any) => {
       console.error(error);
       this.setState({ loading: false })
     });

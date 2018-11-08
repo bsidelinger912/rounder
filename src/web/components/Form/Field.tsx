@@ -3,12 +3,12 @@
  * @description
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
-import styles from './styles.scss';
+const styles = require('./styles.scss');
 
-export class Field extends React.Component {
+export class Field extends React.Component<any, any> {
   static propTypes = {
     label: PropTypes.string,
     field: PropTypes.string.isRequired,
