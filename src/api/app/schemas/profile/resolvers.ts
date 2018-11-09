@@ -1,6 +1,6 @@
 import Profile from './model';
 import UserModel from '../user/model';
-import { CreateArgs, QueryArgs, UpdateArgs} from './types';
+import { ICreateArgs, IQueryArgs, IUpdateArgs, IProfile} from './types';
 // const auth = require('../../authenticateResolver.js');
 
 export default {
@@ -8,7 +8,7 @@ export default {
     allProfiles() {
       return Profile.find();
     },
-    getProfile(_: {}, { id }: QueryArgs) {
+    getProfile(_: {}, { id }: IQueryArgs) {
       return Profile.findById(id);
     },
   },
@@ -24,7 +24,7 @@ export default {
       } catch (e) {
         throw new Error(e);
       }*/
-    async createProfile(_: {}, { input }: CreateArgs) {
+    async createProfile(_: {}, { input }: ICreateArgs): Promise<IProfile> {
       const userId = '5bdbe0e075d95e8db4a80bfb';
 
       // create the new profile
@@ -36,13 +36,13 @@ export default {
       return profile;
     },
 
-    updateProfile(_: {}, { id, input }: UpdateArgs) {
+    updateProfile(_: {}, { id, input }: IUpdateArgs) {
       return Profile.findOneAndUpdate({ _id: id }, input, {
         new: true,
       });
     },
 
-    deleteProfile(_: {}, { id }: QueryArgs) {
+    deleteProfile(_: {}, { id }: IQueryArgs) {
       return Profile.findOneAndRemove({ _id: id });
     },
   },

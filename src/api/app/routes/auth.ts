@@ -3,23 +3,24 @@ import * as passportJWT from 'passport-jwt';
 import * as jwt from 'jsonwebtoken';
 import { Express } from 'express';
 
-const errorCodes = require('../errorCodes.js');
+import UserModel, { generateHash } from '../schemas/user/model';
+import { IUserInternal, IUserModel } from '../schemas/user/types';
+import errorCodes from '../errorCodes.js';
 
 const ExtractJwt = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
 
-import UserModel from '../schemas/user/model';
-import { User } from '../schemas/user/types';
-
 export default (app: Express) => {
   const jwtOptions: passportJWT.StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'tasmanianDevil'
+    
+    // TODO: secure further?
+    secretOrKey: 'roundersgetaround'
   };
 
   // Strategy
   passport.use(new JwtStrategy(jwtOptions, (jwtPayload, next) => {
-    UserModel.findOne({ 'local.email': jwtPayload.id }, (err, user: User) => {
+    UserModel.findOne({ 'local.email': jwtPayload.id }, (err, user: IUserInternal) => {
       if (!err && user) {
         next(null, user);
       } else {
@@ -31,7 +32,7 @@ export default (app: Express) => {
 
   // Login
   app.post('/login', (req, res) => {
-    UserModel.findOne({ 'local.email': req.body.email }, (err, user: User) => {
+    UserModel.findOne({ 'local.email': req.body.email }, (err, user: IUserModel) => {
       if (!user) {
         return res.status(401).json({ message: 'no such user found' });
       }
@@ -68,11 +69,14 @@ export default (app: Express) => {
 
         // if there is no user with that email
         // create the user
-        const newUser = new UserModel();
+        const newUserData: IUserInternal = {
+          local: {
+            email: req.body.email,
+            password: generateHash(req.body.password),
+          },
+        };
 
-        // set the user's local credentials
-        (newUser as any).local.email = req.body.email;
-        (newUser as any).local.password = (newUser as any as User).generateHash(req.body.password);
+        const newUser = new UserModel(newUserData);
 
         // save the user
         return newUser.save((error: any) => {

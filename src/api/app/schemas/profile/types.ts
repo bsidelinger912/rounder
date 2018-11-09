@@ -1,20 +1,24 @@
-export interface Profile {
+import * as mongoose from 'mongoose';
+
+export interface IProfile {
   id: string;
   name: string;
   description?: string;
 }
 
-export type ProfileInput = Pick<Profile, "name" | "description">;
+export type IProfileModel = IProfile & mongoose.Document;
 
-export interface QueryArgs {
+export type IProfileInput = Pick<IProfile, "name" | "description">;
+
+export interface IQueryArgs {
   id: string;
 }
 
-export interface CreateArgs {
-  input: ProfileInput;
+export interface ICreateArgs {
+  input: IProfileInput;
 }
 
-export interface UpdateArgs {
+export interface IUpdateArgs {
   id: string;
-  input: ProfileInput;
+  input: IProfileInput;
 }

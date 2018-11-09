@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-import { Profile } from './types';
+import { IProfileModel } from './types';
 
 const profileSchema = new mongoose.Schema({
   name: {
@@ -18,4 +18,4 @@ profileSchema.virtual('id').get(function(this: any) {
   return this._id;
 });
 
-export default mongoose.model<Profile & mongoose.Document>('Profile', profileSchema);
+export default mongoose.model<IProfileModel>('Profile', profileSchema);
