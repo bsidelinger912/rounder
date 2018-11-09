@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Profile from "src/web/pages/Profile";
+import { Profile } from "src/web/pages/Profile";
 
 const styles = require('./singleProfile.scss');
 
