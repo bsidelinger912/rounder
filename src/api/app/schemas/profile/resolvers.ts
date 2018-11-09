@@ -1,13 +1,14 @@
-const Profile = require('./model');
-const User = require('../user/model');
+import Profile from './model';
+import UserModel from '../user/model';
+import { CreateArgs, QueryArgs, UpdateArgs} from './types';
 // const auth = require('../../authenticateResolver.js');
 
-module.exports = {
+export default {
   Query: {
     allProfiles() {
       return Profile.find();
     },
-    getProfile(root, { id }) {
+    getProfile(_: {}, { id }: QueryArgs) {
       return Profile.findById(id);
     },
   },
@@ -23,25 +24,25 @@ module.exports = {
       } catch (e) {
         throw new Error(e);
       }*/
-    async createProfile(root, { input }) {
+    async createProfile(_: {}, { input }: CreateArgs) {
       const userId = '5bdbe0e075d95e8db4a80bfb';
 
       // create the new profile
       const profile = await Profile.create(input);
 
       // save it to the user
-      await User.findOneAndUpdate({ _id: userId }, { $push: { profiles: profile } }, { new: true });
+      await UserModel.findOneAndUpdate({ _id: userId }, { $push: { profiles: profile } }, { new: true });
 
       return profile;
     },
 
-    updateProfile(root, { id, input }) {
+    updateProfile(_: {}, { id, input }: UpdateArgs) {
       return Profile.findOneAndUpdate({ _id: id }, input, {
         new: true,
       });
     },
 
-    deleteProfile(root, { id }) {
+    deleteProfile(_: {}, { id }: QueryArgs) {
       return Profile.findOneAndRemove({ _id: id });
     },
   },

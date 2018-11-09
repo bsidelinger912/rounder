@@ -11,4 +11,4 @@ input ProFileInput {
 }
 `;
 
-module.exports = () => [Profile];
+export default () => [Profile];

@@ -4,19 +4,11 @@ import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import * as passport from 'passport';
 import * as mongoose from 'mongoose';
-/* const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const passport = require('passport');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const graphlHTTP = require('express-graphql');
+import * as graphlHTTP from 'express-graphql';
 
-const configDB = require('./config/database');
-const schema = require('./app/schemas');
-*/
-
+import schema from './app/schemas';
 import configDb from './config/database';
+import auth from './app/routes/auth';
 
 const { ObjectId } = mongoose.Types;
 ObjectId.prototype.valueOf = function valueOf() {
@@ -52,9 +44,8 @@ app.use('/graphql', graphlHTTP((req, res) => ({
   context: { req, res, foo: 'bar' },
 })));
 
-// main routes
-require('./app/routes/auth.js')(app);
-require('./app/routes/user.js')(app);
+// non-graphql routes
+auth(app);
 
 app.listen(port, () => {
   console.log(`App listening on port: ${port}`);

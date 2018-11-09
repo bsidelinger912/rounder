@@ -8,7 +8,7 @@ let serverSideRender = require(serverRenderPath).default;
 const port = 3000;
 const app = express();
 
-app.use(express.static('dist'));
+app.use(express.static('dist/ssr'));
 
 app.get('*', (req, res) => {
   serverSideRender(req, res);

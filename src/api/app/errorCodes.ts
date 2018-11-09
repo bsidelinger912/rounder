@@ -4,7 +4,7 @@
 
  // TODO: move messages out of passport.js and return codes from here instead
 
- module.exports = {
+ export default {
    DB_ERROR: 'DB_ERROR',
    USER_TAKEN: 'USER_TAKEN',
    BAD_PASSWORD: 'BAD_PASSWORD',

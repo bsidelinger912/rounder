@@ -1,23 +1,25 @@
-const passport = require('passport');
-const passportJWT = require('passport-jwt');
-const jwt = require('jsonwebtoken');
+import * as passport from 'passport';
+import * as passportJWT from 'passport-jwt';
+import * as jwt from 'jsonwebtoken';
+import { Express } from 'express';
 
 const errorCodes = require('../errorCodes.js');
 
 const ExtractJwt = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
 
-const User = require('../schemas/user/model');
+import UserModel from '../schemas/user/model';
+import { User } from '../schemas/user/types';
 
-module.exports = (app) => {
-  const jwtOptions = {};
-  jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-  jwtOptions.secretOrKey = 'tasmanianDevil';
-
+export default (app: Express) => {
+  const jwtOptions: passportJWT.StrategyOptions = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: 'tasmanianDevil'
+  };
 
   // Strategy
   passport.use(new JwtStrategy(jwtOptions, (jwtPayload, next) => {
-    User.findOne({ 'local.email': jwtPayload.id }, (err, user) => {
+    UserModel.findOne({ 'local.email': jwtPayload.id }, (err, user: User) => {
       if (!err && user) {
         next(null, user);
       } else {
@@ -29,14 +31,16 @@ module.exports = (app) => {
 
   // Login
   app.post('/login', (req, res) => {
-    User.findOne({ 'local.email': req.body.email }, (err, user) => {
+    UserModel.findOne({ 'local.email': req.body.email }, (err, user: User) => {
       if (!user) {
         return res.status(401).json({ message: 'no such user found' });
       }
 
+      const email = user.local && user.local.email;
+
       if (user.validPassword(req.body.password)) {
-        const payload = { id: user.local.email };
-        const token = jwt.sign(payload, jwtOptions.secretOrKey);
+        const payload = { id: email };
+        const token = jwt.sign(payload, jwtOptions.secretOrKey as string);
 
         return res.json({ success: true, message: 'ok', token });
       }
@@ -51,7 +55,7 @@ module.exports = (app) => {
     if (!req.body.email || !req.body.password) {
       res.status(400).json({ message: 'you must pass both email and password', code: errorCodes.BAD_REQUEST });
     } else {
-      User.findOne({ 'local.email': req.body.email }, (err, user) => {
+      UserModel.findOne({ 'local.email': req.body.email }, (err, user) => {
         // if there are any errors, return the error
         if (err) {
           return res.status(500).json({ message: 'error connecting to the database', error: err, code: errorCodes.DB_ERROR });
@@ -64,29 +68,24 @@ module.exports = (app) => {
 
         // if there is no user with that email
         // create the user
-        const newUser = new User();
+        const newUser = new UserModel();
 
         // set the user's local credentials
-        newUser.local.email = req.body.email;
-        newUser.local.password = newUser.generateHash(req.body.password);
+        (newUser as any).local.email = req.body.email;
+        (newUser as any).local.password = (newUser as any as User).generateHash(req.body.password);
 
         // save the user
-        return newUser.save((error) => {
+        return newUser.save((error: any) => {
           if (error) {
             return res.status(500).json({ message: 'error connecting saving user to the database', error: err, code: errorCodes.DB_ERROR });
           }
 
-          const payload = { id: newUser.local.email };
-          const token = jwt.sign(payload, jwtOptions.secretOrKey);
+          const payload = { id: (newUser as any).local.email };
+          const token = jwt.sign(payload, jwtOptions.secretOrKey as string);
 
           return res.json({ token, message: 'user created', success: true });
         });
       });
     }
-  });
-
-  app.get('/secret', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // console.log(req.user);
-    res.json('Success! You can not see this without a token');
   });
 };
