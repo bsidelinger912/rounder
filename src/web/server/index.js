@@ -1,7 +1,7 @@
 /* eslint-disable no-console, global-require, import/no-dynamic-require */
 const express = require('express');
 
-const serverRenderPath = '../../../dist/serverSideRender';
+const serverRenderPath = '../../../dist/ssr/serverSideRender';
 let serverSideRender = require(serverRenderPath).default;
 
 // Feel free to change the port Chris ****
@@ -19,7 +19,7 @@ app.listen(port, () => {
 });
 
 require('piping')({
-  main: './dist/serverSideRender.js',
+  main: './dist/ssr/serverSideRender.js',
   hook: true,
 }, (reloader) => {
   reloader.on('reloaded', () => {

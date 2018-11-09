@@ -21,7 +21,7 @@ const Html = ({ markup, initialState }) => {
 
         <link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css" />
         <link href="/icomoon/style.css" rel="stylesheet" type="text/css" />
-        <link href="/styles.css" rel="stylesheet" type="text/css" />
+        <link href="/ssr/styles.css" rel="stylesheet" type="text/css" />
       </head>
       <body>
         <script dangerouslySetInnerHTML={{ __html: scriptContents }} />
