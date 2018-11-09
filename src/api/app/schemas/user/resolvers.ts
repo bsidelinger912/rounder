@@ -13,7 +13,7 @@ function userModelToQueryResult(user: IUserModel): Partial<IUser> {
 
 export default {
   Query: {
-    async getUser(_: {}, { id }: IQueryArgs): Promise<Partial<IUser>> {
+    async user(_: {}, { id }: IQueryArgs): Promise<Partial<IUser>> {
 
       // TODO: find out how to make this better ***
       const user = await UserModel.findById(id);

@@ -24,7 +24,7 @@ interface QueryProps {
 }
 
 interface Data {
-  getProfile: Profile;
+  profile: Profile;
 }
 
 class ProfileQuery extends Query<Data>{}
@@ -32,7 +32,7 @@ class ProfileQuery extends Query<Data>{}
 const WithQuery: React.SFC<QueryProps> = ({ profileId }) => {
   const fragment = `
     {
-      getProfile(id: "${profileId}") {
+      profile(id: "${profileId}") {
         name
         description
       }
@@ -48,7 +48,7 @@ const WithQuery: React.SFC<QueryProps> = ({ profileId }) => {
         if (error || !data) return <p>Error :(</p>;
 
         return (
-          <Profile {...data.getProfile} />
+          <Profile {...data.profile} />
         );
       }}
     </ProfileQuery>

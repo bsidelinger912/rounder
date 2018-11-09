@@ -15,7 +15,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import reducers from 'src/reducers';
 import webRoutes from 'src/web/routes';
 import AuthClient from 'src/web/AuthClient';
-import ContextProvider from 'src/web/ContextProvider';
+import { Provider as ContextProvider } from 'src/web/Context';
 
 const apolloClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -36,7 +36,7 @@ const authClient = new AuthClient(store);
 const render = (routes: JSX.Element) => {
   ReactDOM.render(
     <AppContainer>
-      <ContextProvider authClient={authClient}>
+      <ContextProvider value={{ authClient }}>
         <ApolloProvider client={apolloClient}>
           <Provider store={store} key="provider">
             <BrowserRouter>{routes}</BrowserRouter>

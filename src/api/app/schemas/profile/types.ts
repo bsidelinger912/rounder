@@ -6,6 +6,11 @@ export interface IProfile {
   description?: string;
 }
 
+/* TODO:
+export interface IProfileInternal extends IProfile {
+  users: IUser[];
+}*/
+
 export type IProfileModel = IProfile & mongoose.Document;
 
 export type IProfileInput = Pick<IProfile, "name" | "description">;

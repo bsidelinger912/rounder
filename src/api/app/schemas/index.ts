@@ -8,9 +8,9 @@ import UserSchema from './user/schema';
 
 const SchemaDefinition = `
 type Query {
-  allProfiles: [Profile]
-  getProfile(id: ID!): Profile
-  getUser(id: ID!): User
+  profiles: [Profile]
+  profile(id: ID!): Profile
+  user(id: ID!): User
 }
 
 type Mutation {

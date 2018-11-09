@@ -8,6 +8,12 @@ const profileSchema = new mongoose.Schema({
     required: true,
   },
   description: String,
+
+  // TODO: use this to unlink the profile from users if deleted!!!!!!!
+  /* users: [{
+    type: (mongoose.Schema as any).ObjectId,
+    ref: 'User',
+  }],*/
 }, {
   toObject: { virtuals: true },
   toJSON: { virtuals: true },

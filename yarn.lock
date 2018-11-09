@@ -5887,6 +5887,12 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
+react-minimalist-portal@^2.2.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-minimalist-portal/-/react-minimalist-portal-2.3.1.tgz#4853e3f48a74a32c1b8767601887cdf7941eeba3"
+  dependencies:
+    prop-types "^15.6.1"
+
 react-redux@^5.0.4:
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.4.tgz#1563babadcfb2672f57f9ceaa439fb16bf85d55b"
@@ -5922,11 +5928,12 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-tooltip-lite@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-tooltip-lite/-/react-tooltip-lite-1.2.1.tgz#14f3c1c84696cd7923fd6406f11d1b63ce55d5de"
+react-tooltip-lite@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/react-tooltip-lite/-/react-tooltip-lite-1.7.1.tgz#731e4dc75cdb03805096bb9b955aaa3badae4d4c"
   dependencies:
     prop-types "^15.5.8"
+    react-minimalist-portal "^2.2.0"
 
 react@^16.6.0:
   version "16.6.0"

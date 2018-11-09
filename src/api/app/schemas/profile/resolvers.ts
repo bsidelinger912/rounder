@@ -5,10 +5,10 @@ import { ICreateArgs, IQueryArgs, IUpdateArgs, IProfile} from './types';
 
 export default {
   Query: {
-    allProfiles() {
+    profiles() {
       return Profile.find();
     },
-    getProfile(_: {}, { id }: IQueryArgs) {
+    profile(_: {}, { id }: IQueryArgs) {
       return Profile.findById(id);
     },
   },
