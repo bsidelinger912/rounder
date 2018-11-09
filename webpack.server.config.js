@@ -22,7 +22,7 @@ module.exports = Object.assign(baseConfig, {
     'src/web/server/serverSideRender.tsx',
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist/ssr'),
     filename: 'serverSideRender.js',
     libraryTarget: 'commonjs2',
   },

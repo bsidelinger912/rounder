@@ -15,7 +15,7 @@
     "start": "node src/web/server/index.js",
     "start-api": "node src/api/index.js",
     "scrape": "node src/crawlers/tay",
-    "ts-client": "tsc src/web/client/index.tsx"
+    "tsc-api": "tsc -p ./tsconfig.json"
   },
   "author": "Benny Sidelinger",
   "license": "MIT",
