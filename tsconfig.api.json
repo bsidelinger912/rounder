@@ -1,15 +1,11 @@
 {
     "compilerOptions": {
-      "baseUrl": "./",
-      "paths" : {
-        "src/*": ["./src/*"]
-      },
       "outDir": "dist/api",
-      "module": "esnext",
+      "rootDir": "src/api",
+      "module": "CommonJS",
       "target": "ES6",
       "sourceMap": true,
       "allowJs": true,
-      "jsx": "react",
       "moduleResolution": "node",
       "lib": [
         "es5",
@@ -26,7 +22,6 @@
         "es2015.symbol.wellknown",
         "esnext.asynciterable"
       ],
-      "rootDir": "./",
       "forceConsistentCasingInFileNames": true,
       "noImplicitReturns": true,
       "noImplicitThis": true,

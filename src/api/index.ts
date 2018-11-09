@@ -1,5 +1,9 @@
 /* eslint-disable no-console, global-require, import/no-dynamic-require */
 import * as express from 'express';
+import * as cors from 'cors';
+import * as bodyParser from 'body-parser';
+import * as passport from 'passport';
+import * as mongoose from 'mongoose';
 /* const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -12,38 +16,36 @@ const configDB = require('./config/database');
 const schema = require('./app/schemas');
 */
 
-const port = 4000;
-const app = express();
+import configDb from './config/database';
 
-// to make mongoose's id work with graphql
-/* const { ObjectId } = mongoose.Types;
+const { ObjectId } = mongoose.Types;
 ObjectId.prototype.valueOf = function valueOf() {
   return this.toString();
 };
 
 // db connection
-mongoose.connect(configDB.url, {
+mongoose.connect(configDb.url, {
   useMongoClient: true,
 });
 
-app.use(cors());
-app.use(morgan('dev')); // log every request to the console
+const port = 4000;
+const app = express();
 
-// parse application/json
-app.use(bodyParser.json());
-app.use(passport.initialize());
+app.use(cors());
 
 // allows us to serve cross domain, redundant with cors package???????
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', req.get('Origin') || '*');
   next();
-});*/
+});
+
+app.use(bodyParser.json());
+app.use(passport.initialize());
 
 app.get('/ping', (_, res) => {
   res.send('pong');
 });
 
-/*
 app.use('/graphql', graphlHTTP((req, res) => ({
   schema,
   graphiql: true,
@@ -52,7 +54,7 @@ app.use('/graphql', graphlHTTP((req, res) => ({
 
 // main routes
 require('./app/routes/auth.js')(app);
-require('./app/routes/user.js')(app);*/
+require('./app/routes/user.js')(app);
 
 app.listen(port, () => {
   console.log(`App listening on port: ${port}`);
