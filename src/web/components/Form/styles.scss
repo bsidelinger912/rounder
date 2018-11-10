@@ -1,6 +1,14 @@
+@import "~src/web/client/scss/mixins";
+@import "~src/web/client/scss/variables";
+
 .formRow {
   margin: 0 0 35px;
   position: relative;
+}
+
+.formRowShort {
+  @extend .formRow;
+  margin: 0 0 #{$largeGutter}px;
 }
 
 .fieldError {
