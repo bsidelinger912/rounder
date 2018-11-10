@@ -16,3 +16,8 @@
   position: absolute;
   top: 58px;
 }
+
+.formError {
+  color: red;
+  margin: #{largeGutter}px 0;
+}

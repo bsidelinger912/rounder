@@ -4,35 +4,35 @@
  */
 
 import * as React from "react";
+import gql from "graphql-tag";
+import { Mutation } from "react-apollo";
 
-import { IProfile } from "src/api/app/schemas/profile/types";
-import { Form, Field, Text, FormData } from "src/web/components/Form";
-
-const styles = require('./editProfile.scss');
+import { IProfile, IProfileInput } from "src/api/app/schemas/profile/types";
+import EditProfileForm from "./EditProfileForm";
 
 export interface Props {
   profile: IProfile;
 }
 
-const EditProfile: React.SFC<Props> = () => {
+const UpdateProfile = gql`
+  mutation UpdateProfile($id: ID!, $input: ProFileInput!) {
+    updateProfile(id: $id, input: $input) {
+      id
+      name
+      description
+    }
+  }
+`;
+
+class UpdateProfileMutation extends Mutation<IProfile, { id: string; input: IProfileInput }>{}
+
+const EditProfile: React.SFC<Props> = ({ profile }) => {
   return (
-    <div className={styles.main}>
-       <Form
-        onSubmit={(data: FormData) => { console.log(data);}}
-       >
-         <Field field="name" label="Name" compact={true}>
-           <Text />
-         </Field>
-
-         <Field field="description" label="Description" compact={true}>
-           <Text />
-         </Field>
-
-         <div>
-          <button className="button-primary" type="submit">Save</button>
-         </div>
-       </Form>
-    </div>
+    <UpdateProfileMutation mutation={UpdateProfile}>
+      {(updateProfile, { data, loading, error }) => (
+        <EditProfileForm {...{ updateProfile, data, loading, error, profile }} />
+      )}
+    </UpdateProfileMutation>
   );
 };
 

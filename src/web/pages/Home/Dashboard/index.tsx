@@ -12,21 +12,22 @@ import SingleProfileDashboard from 'src/web/pages/Home/Dashboard/SingleProfile';
 
 const styles = require('./dashboard.scss');
 
-export const Welcome: React.SFC<any> = (props, { authClient }) => (
-  <Query
-    query={gql`
-      {
-        user {
-          email
-          id
-          profiles {
-            name
-            description
-          }
-        }
+const UserQuery = gql`
+  {
+    user {
+      email
+      id
+      profiles {
+        id
+        name
+        description
       }
-    `}
-  >
+    }
+  }
+`;
+
+export const Welcome: React.SFC<any> = (props, { authClient }) => (
+  <Query query={UserQuery}>
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
