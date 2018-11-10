@@ -1,3 +1,48 @@
+@import "~src/web/client/scss/mixins";
+@import "~src/web/client/scss/variables";
+
 .main {
-    border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile {
+  @include pageHeader;
+}
+
+.profileContent {
+  @include main;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 3rem;
+  }
+
+  >* {
+    padding: 0 #{$largeGutter}px;
+    border-left: 1px solid $whiteSmoke;
+    margin: 0;
+
+    &:first-child {
+      padding-left: 0;
+      border-left: none;
+    }
+  }
+}
+
+.itineraries {
+  @include main;
+  display: flex;
+  flex-direction: column;
+
+  >div {
+    @include whiteBox;
+    margin: #{$smallGutter}px 0;
+  }
 }

@@ -1,11 +1,33 @@
 @import "~src/web/client/scss/mixins";
+@import "~src/web/client/scss/variables";
+
+$tooltipColor: rgba($darkestGrey, .9);
+
+:global(.react-tooltip-lite-down-arrow) {
+  border-bottom: 10px solid $tooltipColor;
+}
+
+:global(.react-tooltip-lite-up-arrow) {
+  border-top: 10px solid $tooltipColor;
+}
+
+:global(.react-tooltip-lite-left-arrow) {
+  border-right: 10px solid $tooltipColor;
+}
+
+:global(.react-tooltip-lite-right-arrow) {
+  border-left: 10px solid $tooltipColor;
+}
+
+:global(.react-tooltip-lite) {
+  background: $tooltipColor;
+  color: $whiteSmoke;
+}
 
 .main {
-  /* max-width: 1400px;
-  margin: 0 auto;*/
   background: rgb(195, 195, 170) url('/images/home-2-bg.jpg') no-repeat;
   background-size: 100%;
-  padding: #{$largeGutter + 70}px 10px 0;
-  height: 100vh;
+  padding-top: 70px;
+  min-height: 100vh;
   box-sizing: border-box;
 }

@@ -1,6 +1,7 @@
 @import "./variables";
 
 @mixin main {
+  width: 100%;
   max-width: $maxWidth;
   margin: 0 auto;
 }
@@ -31,10 +32,22 @@
 }
 
 @mixin whiteBox {
-  border: 1px solid $lightGrey;
-  border-radius: 5px;
-  background: $white;
-  padding: 15px;
+  padding: #{$smallGutter}px;
+  background: rgba(white, .8);
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+@mixin pageHeader {
+  padding: $smallGutter;
+  background: rgba(#000, .25);
+  color: #fff;
+}
+
+@mixin pageSubHeader {
+  padding: $smallGutter;
+  background: rgba(#000, .2);
+  color: #fff;
 }
 
 @mixin aspectRatio($width, $height) {

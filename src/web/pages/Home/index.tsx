@@ -14,13 +14,15 @@ const propTypes = {
 };
 
 const Home: React.SFC<any> = ({ user: { loggedIn } }) => {
-  const component = loggedIn ? <Dashboard /> : <SignupOrLogin />;
+  const component = loggedIn ? <Dashboard /> : (
+    <div className={styles.form}>
+      <SignupOrLogin />
+    </div>
+  );
 
   return (
     <main className={styles.main}>
-      <div className={styles.form}>
-        {component}
-      </div>
+      {component}
     </main>
   );
 };

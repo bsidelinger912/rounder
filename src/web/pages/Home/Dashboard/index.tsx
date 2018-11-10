@@ -16,7 +16,7 @@ export const Welcome: React.SFC<any> = (props, { authClient }) => (
   <Query
     query={gql`
       {
-        user(id: "5bdbe0e075d95e8db4a80bfb") {
+        user {
           email
           id
           profiles {
@@ -57,8 +57,6 @@ export const Welcome: React.SFC<any> = (props, { authClient }) => (
 
       return (
         <div className={styles.main}>
-          <h1>Welcome</h1>
-
           {content}
         </div>
       );

@@ -40,5 +40,5 @@ export interface IUserModel extends IUserInternal, mongoose.Document {
 }
 
 export interface IQueryArgs {
-  id: string;
+  id?: string;
 }

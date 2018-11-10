@@ -18,7 +18,7 @@ interface Data {
 // TODO: get this id on the server!
 const fragment = `
   {
-    user(id: "5bdbe0e075d95e8db4a80bfb") {
+    user {
       email
     }
   }

@@ -2,29 +2,15 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const styles = require('./profile.scss');
-
-// TODO: get this interface frome somewhere???
-interface Profile {
-  name: string;
-  description: string;
-}
-
-export const Profile: React.SFC<Profile> = ({ name, description}) => {
-  return (
-    <div className={styles.main}>
-      name: {name} <br />
-      description: { description}
-    </div>
-  )
-};
+import { IProfile } from 'src/api/app/schemas/profile/types';
+import ProfileContent from './ProfileContent';
 
 interface QueryProps {
   profileId: string;
 }
 
 interface Data {
-  profile: Profile;
+  profile: IProfile;
 }
 
 class ProfileQuery extends Query<Data>{}
@@ -48,7 +34,7 @@ const WithQuery: React.SFC<QueryProps> = ({ profileId }) => {
         if (error || !data) return <p>Error :(</p>;
 
         return (
-          <Profile {...data.profile} />
+          <ProfileContent {...data.profile} />
         );
       }}
     </ProfileQuery>

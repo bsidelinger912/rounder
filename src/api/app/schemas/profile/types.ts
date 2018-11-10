@@ -1,9 +1,11 @@
 import * as mongoose from 'mongoose';
+import { IItinerary } from '../itinerary/types';
 
 export interface IProfile {
   id: string;
   name: string;
   description?: string;
+  itineraries?: IItinerary[];
 }
 
 /* TODO:

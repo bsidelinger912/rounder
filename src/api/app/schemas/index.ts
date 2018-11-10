@@ -10,7 +10,7 @@ const SchemaDefinition = `
 type Query {
   profiles: [Profile]
   profile(id: ID!): Profile
-  user(id: ID!): User
+  user(id: ID): User
 }
 
 type Mutation {
