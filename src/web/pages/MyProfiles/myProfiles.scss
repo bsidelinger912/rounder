@@ -9,13 +9,15 @@
   @include pageHeaderTitle;
 }
 
-.form {
+.main {
   @include main;
-  @include whiteBox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
-  margin-top: #{$smallGutter}px;
-
-  form {
-    max-width: 400px;
+  >div {
+    @include whiteBox;
+    margin: #{$smallGutter}px 0;
+    width: 32%;
   }
 }

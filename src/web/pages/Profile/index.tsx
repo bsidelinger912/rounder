@@ -13,21 +13,22 @@ interface Data {
   profile: IProfile;
 }
 
-class ProfileQuery extends Query<Data>{}
+class ProfileQuery extends Query<Data, { profileId: string; }>{}
+
+const Profile = gql`
+  query Profile($profileId: ID!) {
+    profile(id: $profileId) {
+      name
+      description
+    }
+  }
+`;
 
 const WithQuery: React.SFC<QueryProps> = ({ profileId }) => {
-  const fragment = `
-    {
-      profile(id: "${profileId}") {
-        name
-        description
-      }
-    }
-  `;
-
   return (
     <ProfileQuery
-      query={gql(fragment)}
+      query={Profile}
+      variables={{ profileId }}
     >
       {({ loading, error, data }) => {
         if (loading) return <p>Loading...</p>;

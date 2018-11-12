@@ -8,7 +8,7 @@ import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
 import { IProfile, IProfileInput } from "src/api/app/schemas/profile/types";
-import EditProfileForm from "./EditProfileForm";
+import ProfileForm from "src/web/components/ProfileForm";
 
 export interface Props {
   profile: IProfile;
@@ -24,13 +24,14 @@ const UpdateProfile = gql`
   }
 `;
 
-class UpdateProfileMutation extends Mutation<IProfile, { id: string; input: IProfileInput }>{}
+// TODO: why do i have to make id optional here??
+class UpdateProfileMutation extends Mutation<IProfile, { id?: string; input: IProfileInput }>{}
 
 const EditProfile: React.SFC<Props> = ({ profile }) => {
   return (
     <UpdateProfileMutation mutation={UpdateProfile}>
       {(updateProfile, { data, loading, error }) => (
-        <EditProfileForm {...{ updateProfile, data, loading, error, profile }} />
+        <ProfileForm {...{ submit: updateProfile, data, loading, error, profile }} />
       )}
     </UpdateProfileMutation>
   );

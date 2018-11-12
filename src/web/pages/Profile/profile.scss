@@ -11,17 +11,8 @@
 }
 
 .profileContent {
-  @include main;
-  display: flex;
-  align-items: center;
-  padding: 5px;
-
   .profileName {
-    margin-top: 0;
-    margin-bottom: 0;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 3rem;
+    @include pageHeaderTitle;
     cursor: pointer;
   }
 

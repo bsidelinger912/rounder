@@ -5,12 +5,6 @@ import { IProfile } from 'src/api/app/schemas/profile/types';
 
 const styles = require('./singleProfile.scss');
 
-// TODO: get this interface frome somewhere???
-interface Profile {
-  name: string;
-  description: string;
-}
-
 interface Props {
   profile: IProfile
 }

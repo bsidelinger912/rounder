@@ -7,8 +7,8 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import ProfileForm from 'src/web/components/ProfileForm';
-import SingleProfileDashboard from 'src/web/pages/Home/Dashboard/SingleProfile';
+import SingleProfileDashboard from './SingleProfile';
+import MultiProfileDashboard from './MultiProfile';
 
 const styles = require('./dashboard.scss');
 
@@ -36,7 +36,7 @@ export const Welcome: React.SFC<any> = (props, { authClient }) => (
 
       if (data.user.profiles.length > 1) {
         content = (
-          <div>Multi profile dashboard coming....</div>
+          <MultiProfileDashboard profiles={data.user.profiles} />
         );
       } else if (data.user.profiles.length > 0) {
         content = (
@@ -50,7 +50,7 @@ export const Welcome: React.SFC<any> = (props, { authClient }) => (
               A profile can be an individual or a group
             </p>
 
-            <ProfileForm />
+            Profile form here...
           </div>
         );
       }

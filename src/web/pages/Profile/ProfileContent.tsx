@@ -27,7 +27,7 @@ const ProfileContent: React.SFC<Props> = (props) => {
             <h3 className={styles.profileName}>{name}</h3>
           </InteractiveTooltip>
 
-          <PlusButton tooltipContents="Add a new Profile" />
+          <PlusButton href="/new-profile" tooltipContents="Add a new Profile" />
         </div>
       </div>
       <div className={styles.itineraries}>
