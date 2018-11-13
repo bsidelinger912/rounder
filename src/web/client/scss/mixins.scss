@@ -48,6 +48,17 @@
     display: flex;
     align-items: center;
     padding: 5px;
+
+    >* {
+      padding: 0 #{$largeGutter}px;
+      border-left: 1px solid $whiteSmoke;
+      margin: 0;
+  
+      &:first-child {
+        padding-left: 0;
+        border-left: none;
+      }
+    }
   }
 }
 

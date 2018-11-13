@@ -7,6 +7,7 @@ import * as React from 'react';
 
 import { IProfile } from 'src/api/app/schemas/profile/types';
 import ProfileItem from './ProfileItem';
+import NewProfileButton from 'src/web/components/NewProfileButton';
 
 const styles = require('./myProfiles.scss');
 
@@ -20,10 +21,11 @@ const MyProfilesContent: React.SFC<Props> = ({ profiles }) => {
       <div className={styles.pageHeader}>
         <div>
           <h3 className={styles.pageHeaderTitle}>My Profiles</h3>
+          <NewProfileButton />
         </div>
       </div>
       <div className={styles.main}>
-        {profiles.map(profile => <ProfileItem {...profile} />)}
+        {profiles.map(profile => <ProfileItem key={profile.id} {...profile} />)}
       </div>
     </div>
   );

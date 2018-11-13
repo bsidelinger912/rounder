@@ -6,10 +6,10 @@
 import * as React from 'react';
 
 import { IProfile } from 'src/api/app/schemas/profile/types';
-import PlusButton from 'src/web/components/PlusButton';
 import ItineraryList from './ItineraryList';
 import EditProfile from './EditProfile';
 import InteractiveTooltip from 'src/web/components/InteractiveTooltip';
+import NewProfileButton from 'src/web/components/NewProfileButton';
 
 const styles = require('./profile.scss');
 
@@ -27,7 +27,7 @@ const ProfileContent: React.SFC<Props> = (props) => {
             <h3 className={styles.profileName}>{name}</h3>
           </InteractiveTooltip>
 
-          <PlusButton href="/new-profile" tooltipContents="Add a new Profile" />
+          <NewProfileButton />
         </div>
       </div>
       <div className={styles.itineraries}>
