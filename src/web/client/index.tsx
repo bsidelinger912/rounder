@@ -5,6 +5,7 @@ import * as ReactDOM from 'react-dom';
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import thunk from 'redux-thunk';
 import { AppContainer } from 'react-hot-loader';
@@ -39,7 +40,10 @@ const render = (routes: JSX.Element) => {
       <ContextProvider value={{ authClient }}>
         <ApolloProvider client={apolloClient}>
           <Provider store={store} key="provider">
-            <BrowserRouter>{routes}</BrowserRouter>
+            <>
+              <BrowserRouter>{routes}</BrowserRouter>
+              <ToastContainer />
+            </>
           </Provider>
         </ApolloProvider>
       </ContextProvider>

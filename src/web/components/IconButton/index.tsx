@@ -3,22 +3,25 @@
  * @description 
  */
 
-import * as React from "react";
+import * as React from 'react';
 
 const styles = require('./iconButton.scss');
 
 export enum IconType {
-  Edit = "icon-edit",
-  Add = "icon-plus",
+  Edit = 'icon-edit',
+  Add = 'icon-plus',
+  Trash = 'icon-trash',
 }
 
 export interface Props {
   iconType: IconType;
+  onClick?: () => void;
+  loading?: boolean;
 }
 
-const IconButton: React.SFC<Props> = ({ iconType }) => {
+const IconButton: React.SFC<Props> = ({ iconType, onClick }) => {
   return (
-    <span className={styles.main}><i className={iconType} /></span>
+    <button className={styles.main} onClick={onClick}><i className={iconType} /></button>
   );
 };
 

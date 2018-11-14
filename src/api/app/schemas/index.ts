@@ -17,6 +17,7 @@ type Mutation {
   createProfile(input: ProFileInput) : Profile
   updateProfile(id: ID!, input: ProFileInput): Profile
   deleteProfile(id: ID!): Profile
+  restoreProfile(id: ID!): Profile
 }
 `;
 

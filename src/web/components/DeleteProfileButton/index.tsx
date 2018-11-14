@@ -6,8 +6,11 @@
 import * as React from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import { toast } from 'react-toastify';
 
 import { IProfile } from "src/api/app/schemas/profile/types";
+import IconButton, { IconType } from "src/web/components/IconButton";
+import { UserQuery } from "src/web/pages/Home/Dashboard";
 
 export interface Props {
   id: string;
@@ -27,15 +30,33 @@ class DeleteProfileMutation extends Mutation<IProfile, { id: string; }>{}
 
 const DeleteProfileButton: React.SFC<Props> = ({ id }) => {
   return (
-    <DeleteProfileMutation mutation={DeleteProfile} variables={{ id }}>
+    <DeleteProfileMutation 
+      mutation={DeleteProfile} 
+      variables={{ id }}
+      update={(cache) => {
+        const { user } = cache.readQuery({ query: UserQuery }) as any;
+
+        const index = user.profiles.indexOf((profile: IProfile) => profile.id === id);
+        user.profiles.splice(index, 1);
+        
+        cache.writeQuery({
+          query: UserQuery,
+          data: { user }
+        })
+      }}
+    >
       {(deleteProfile, { loading, error }) => {
         if (error) {
+          console.error(error);
           alert('there was an error deleting the profile');
         }
+
+        const deleteMethod = () => {
+          deleteProfile({ variables: { id } });
+          toast.warn('Profile Deleted');
+        };
         
-        const text = loading ? 'Deleting...' : 'Delete';
-        
-        return <button disabled={!!loading} onClick={() => deleteProfile({ variables: { id } })}>{text}</button>;
+        return <IconButton iconType={IconType.Trash} loading={loading} onClick={deleteMethod} />;
       }}
     </DeleteProfileMutation>
   );

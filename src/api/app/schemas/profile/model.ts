@@ -1,8 +1,11 @@
 import * as mongoose from 'mongoose';
 
+// TODO: make a types file?
+const mongooseDelete = require('mongoose-delete');
+
 import { IProfileModel } from './types';
 
-const profileSchema = new mongoose.Schema({
+const ProfileSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -19,9 +22,12 @@ const profileSchema = new mongoose.Schema({
   toJSON: { virtuals: true },
 });
 
+
+ProfileSchema.plugin(mongooseDelete, { overrideMethods: 'all' }); // , { deletedBy : true });
+
 // TODO does "this" work this way?
-profileSchema.virtual('id').get(function(this: any) {
+ProfileSchema.virtual('id').get(function(this: any) {
   return this._id;
 });
 
-export default mongoose.model<IProfileModel>('Profile', profileSchema);
+export default mongoose.model<IProfileModel>('Profile', ProfileSchema);

@@ -10,6 +10,7 @@ import { RouteComponentProps } from 'react-router';
 
 import { IProfile, IProfileInput } from 'src/api/app/schemas/profile/types';
 import ProfileForm from 'src/web/components/ProfileForm';
+import { UserQuery } from '../Home/Dashboard';
 
 const styles = require('./newProfile.scss');
 
@@ -39,7 +40,19 @@ export const NewProfile: React.SFC<Props> = ({ history }) => {
         </div>
       </div>
       <div className={styles.form}>
-      <CreateProfileMutation mutation={CreateProfile}>
+      <CreateProfileMutation 
+        mutation={CreateProfile}
+        update={(cache, { data }) => {
+          const { user } = cache.readQuery({ query: UserQuery }) as any;
+          
+          const profile = (data as any).createProfile;
+          user.profiles = user.profiles.concat(profile);
+          cache.writeQuery({
+            query: UserQuery,
+            data: { user }
+          })
+        }}
+      >
         {(updateProfile, { data, loading, error }) => (
           <ProfileForm {...{ submit: updateProfile, data, loading, error, onSuccess }} />
         )}

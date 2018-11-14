@@ -1,7 +1,22 @@
+@import "~src/web/client/scss/mixins";
+@import "~src/web/client/scss/variables";
+
 .main {
-  border-radius: 5px;
-  background: rbga(#fff, .5);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: $dimGrey;
+  padding: 5px;
+  height: 25px;
+  width: 25px;
+  font-size: 20px;
+
+  &:hover {
+    color: $darkGrey;
+  }
+}
+
+.main, .main:hover {
+  background: none; // rbga(#fff, .5);
+  border: none;
 }

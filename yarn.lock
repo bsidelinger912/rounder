@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@babel/runtime@^7.1.2":
+  version "7.1.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.1.5.tgz#4170907641cf1f61508f563ece3725150cc6fe39"
+  dependencies:
+    regenerator-runtime "^0.12.0"
+
 "@types/async@2.0.50":
   version "2.0.50"
   resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.50.tgz#117540e026d64e1846093abbd5adc7e27fda7bcb"
@@ -158,6 +164,19 @@
   resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-4.4.1.tgz#c875dfd0b6fe00efa463eb8e5de8b5f74644b3f5"
   dependencies:
     "@types/history" "*"
+    "@types/react" "*"
+
+"@types/react-toastify@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-toastify/-/react-toastify-4.0.1.tgz#5eef518608a6d65a8b5dbaee81b55f0c0281b873"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-transition-group" "*"
+
+"@types/react-transition-group@*":
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-2.0.14.tgz#afd0cd785a97f070b55765e9f9d76ff568269001"
+  dependencies:
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^16.4.18":
@@ -1866,6 +1885,10 @@ classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+
 cli-cursor@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-1.0.2.tgz#64da3f7d56a54412e59794bd62dc35295e8f2987"
@@ -2449,6 +2472,12 @@ doctrine@^2.0.0:
   dependencies:
     esutils "^2.0.2"
     isarray "^1.0.0"
+
+dom-helpers@^3.3.1:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.4.0.tgz#e9b369700f959f62ecde5a6babde4bccd9169af8"
+  dependencies:
+    "@babel/runtime" "^7.1.2"
 
 dom-walk@^0.1.0:
   version "0.1.1"
@@ -4815,6 +4844,10 @@ mongodb@2.2.31:
     mongodb-core "2.1.15"
     readable-stream "2.2.7"
 
+mongoose-delete@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/mongoose-delete/-/mongoose-delete-0.4.0.tgz#6eeeed56d8b478cf09ae02b5894d11380056be4a"
+
 mongoose@^4.11.10:
   version "4.11.10"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-4.11.10.tgz#f68b131df09893b9f0073f46d5dcab0116789f56"
@@ -5928,12 +5961,29 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
+react-toastify@^4.4.3:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-4.4.3.tgz#bf4a514b4a160e20ad227a95bd84c9853d1f86ca"
+  dependencies:
+    classnames "^2.2.6"
+    prop-types "^15.6.0"
+    react-transition-group "^2.4.0"
+
 react-tooltip-lite@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/react-tooltip-lite/-/react-tooltip-lite-1.7.1.tgz#731e4dc75cdb03805096bb9b955aaa3badae4d4c"
   dependencies:
     prop-types "^15.5.8"
     react-minimalist-portal "^2.2.0"
+
+react-transition-group@^2.4.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.5.0.tgz#70bca0e3546102c4dc5cf3f5f57f73447cce6874"
+  dependencies:
+    dom-helpers "^3.3.1"
+    loose-envify "^1.4.0"
+    prop-types "^15.6.2"
+    react-lifecycles-compat "^3.0.4"
 
 react@^16.6.0:
   version "16.6.0"
@@ -6053,6 +6103,10 @@ regenerator-runtime@^0.10.0:
 regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+
+regenerator-runtime@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
 
 regenerator-transform@0.9.11:
   version "0.9.11"

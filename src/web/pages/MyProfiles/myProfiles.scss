@@ -11,13 +11,16 @@
 
 .main {
   @include main;
+}
+
+.gridWrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  margin: 0 -#{$smallGutter / 2}px;
+}
 
-  >div {
-    @include whiteBox;
-    margin: #{$smallGutter}px 0;
-    width: 32%;
-  }
+.itemWrapper {
+  width: 33.33%;
+  padding: #{$smallGutter / 2}px;
+  box-sizing: border-box;
 }

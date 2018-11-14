@@ -26,6 +26,7 @@ const Html = ({ markup, initialState }) => {
       <body>
         <script dangerouslySetInnerHTML={{ __html: scriptContents }} />
         <div id="react-root" dangerouslySetInnerHTML={{ __html: markup }} />
+        <div id="modal-root" />
         <script src="http://localhost:8080/bundle.js" />
       </body>
     </html>

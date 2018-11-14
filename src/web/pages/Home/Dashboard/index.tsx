@@ -12,7 +12,7 @@ import MultiProfileDashboard from './MultiProfile';
 
 const styles = require('./dashboard.scss');
 
-const UserQuery = gql`
+export const UserQuery = gql`
   {
     user {
       email

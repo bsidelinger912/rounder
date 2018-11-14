@@ -1,6 +1,6 @@
 import Profile from './model';
 import UserModel from '../user/model';
-import { ICreateArgs, IQueryArgs, IUpdateArgs, IProfile} from './types';
+import { ICreateArgs, IQueryArgs, IUpdateArgs, IProfile, IProfileModel} from './types';
 // const auth = require('../../authenticateResolver.js');
 
 export default {
@@ -42,8 +42,16 @@ export default {
       });
     },
 
-    deleteProfile(_: {}, { id }: IQueryArgs) {
-      return Profile.findOneAndRemove({ _id: id });
+    async deleteProfile(_: {}, { id }: IQueryArgs) {
+      const profile = await Profile.findOne({ _id: id });
+      await (profile as any as IProfileModel).delete();
+      return profile;
+    },
+
+    async restoreProfile(_: {}, { id }: IQueryArgs) {
+      const profile = await Profile.findOne({ _id: id });
+      await (Profile.findOne({ _id: id }) as any as IProfileModel).restore();
+      return profile;
     },
   },
 };

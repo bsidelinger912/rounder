@@ -38,6 +38,10 @@
   box-sizing: border-box;
 }
 
+@mixin whiteBoxHover {
+  background: rgba(white, .7);
+}
+
 @mixin pageHeader {
   padding: $smallGutter;
   background: rgba(#000, .25);
