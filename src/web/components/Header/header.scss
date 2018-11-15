@@ -5,7 +5,8 @@ $mobileNavBg: rgba($whiteSmoke, .9);
 
 .wrapper {
   width: 100%;
-  background: linear-gradient(to bottom, $headerTop, $headerTop 20%, transparent 100%);
+  // background: linear-gradient(to bottom, $headerTop, $headerTop 20%, transparent 100%);
+  background: rgba(#000, .35);
   position: absolute;
   top: 0;
   left: 0;

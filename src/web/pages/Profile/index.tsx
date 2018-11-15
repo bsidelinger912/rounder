@@ -1,54 +1,46 @@
 import * as React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { RouteComponentProps } from 'react-router';
 
-const styles = require('./profile.scss');
-
-// TODO: get this interface frome somewhere???
-interface Profile {
-  name: string;
-  description: string;
-}
-
-export const Profile: React.SFC<Profile> = ({ name, description}) => {
-  return (
-    <div className={styles.main}>
-      name: {name} <br />
-      description: { description}
-    </div>
-  )
-};
+import { IProfile } from 'src/api/app/schemas/profile/types';
+import ProfileContent from './ProfileContent';
 
 interface QueryProps {
   profileId: string;
 }
 
+interface Props extends RouteComponentProps<QueryProps> {}
+
 interface Data {
-  getProfile: Profile;
+  profile: IProfile;
 }
 
-class ProfileQuery extends Query<Data>{}
+class ProfileQuery extends Query<Data, QueryProps>{}
 
-const WithQuery: React.SFC<QueryProps> = ({ profileId }) => {
-  const fragment = `
-    {
-      getProfile(id: "${profileId}") {
-        name
-        description
-      }
+const Profile = gql`
+  query Profile($profileId: ID!) {
+    profile(id: $profileId) {
+      name
+      description
     }
-  `;
+  }
+`;
+
+const WithQuery: React.SFC<Props> = (props) => {
+  const profileId = props.match.params.profileId;
 
   return (
     <ProfileQuery
-      query={gql(fragment)}
+      query={Profile}
+      variables={{ profileId }}
     >
       {({ loading, error, data }) => {
         if (loading) return <p>Loading...</p>;
         if (error || !data) return <p>Error :(</p>;
 
         return (
-          <Profile {...data.getProfile} />
+          <ProfileContent {...data.profile} />
         );
       }}
     </ProfileQuery>

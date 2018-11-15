@@ -1,0 +1,32 @@
+@import "~src/web/client/scss/mixins";
+@import "~src/web/client/scss/variables";
+
+.main {
+  width: 300px;
+}
+
+.tooltip {
+  :global(.react-tooltip-lite) {
+    background: $whiteSmoke;
+    color: $darkestGrey;
+  }
+}
+
+.heading {
+  padding: 0 5px 5px;
+  border-bottom: 1px solid $dimGrey;
+  margin: 0 0 #{$smallGutter}px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.close, .close:hover {
+  background: none;
+  padding: 0;
+  margin: 0;
+  color: $dimGrey;
+  border: none;
+  height: auto;
+  line-height: 15px;
+  font-size: 15px;
+}

@@ -40,7 +40,6 @@ module.exports = {
       },
       {
         test: /\.global\.scss$/,
-        // include: __dirname,
         use: [
           {
             loader: 'style-loader',
@@ -58,7 +57,6 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        // include: __dirname,
         exclude: /\.global\.scss$/,
         use: [
           {

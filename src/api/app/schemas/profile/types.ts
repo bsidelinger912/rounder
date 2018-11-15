@@ -1,12 +1,19 @@
-import * as mongoose from 'mongoose';
+import { IItinerary } from '../itinerary/types';
+import { DocumentWithDelete } from '../../../types';
 
 export interface IProfile {
   id: string;
   name: string;
   description?: string;
+  itineraries?: IItinerary[];
 }
 
-export type IProfileModel = IProfile & mongoose.Document;
+/* TODO:
+export interface IProfileInternal extends IProfile {
+  users: IUser[];
+}*/
+
+export type IProfileModel = IProfile & DocumentWithDelete;
 
 export type IProfileInput = Pick<IProfile, "name" | "description">;
 

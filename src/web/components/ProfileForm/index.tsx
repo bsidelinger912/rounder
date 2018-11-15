@@ -1,57 +1,81 @@
 /**
  * @class ProfileForm
- * @description
+ * @description 
  */
 
-import * as React from 'react';
-// import * as PropTypes from 'prop-types';
+import * as React from "react";
+import { ApolloError } from "apollo-boost";
 
-import { Form, Text, Field } from '../Form';
+import { Form, Field, Text, FormData, FormError } from "src/web/components/Form";
+import { IProfileInput, IProfile } from "src/api/app/schemas/profile/types";
 
 const styles = require('./profileForm.scss');
 
-function validate(data: any) {
-  const errors: any = {};
-
-  if (!data.name) {
-    errors.email = 'Name is Required';
-  }
-
-  return errors;
+interface UpdateProfileArgs {
+  variables: { id: string; input: IProfileInput; } | { input: IProfileInput };
 }
 
-export class ProfileForm extends React.Component<any, any> {
-  static propTypes = {
-    // test: PropTypes.number.isRequired,
+export interface Props {
+  submit(args: UpdateProfileArgs): Promise<any>;
+  onSuccess?(data?: IProfileInput): void;
+  data: IProfile | undefined;
+  loading: boolean;
+  error: ApolloError | undefined;
+  profile?: IProfile;
+}
+
+interface State {
+}
+
+class ProfileForm extends React.Component<Props, State> {
+  private onSubmit: (data: FormData) => Promise<void> = async (data) => {
+    const { profile, submit, onSuccess } = this.props;
+
+    const variables = profile 
+      ? { id: profile.id, input: data as IProfileInput }
+      : { input: data as IProfileInput };
+
+    try {
+      await submit({ variables });
+      onSuccess && onSuccess(data as IProfileInput);
+    } catch(e) {
+
+    }
   }
 
-  constructor(props: any) {
-    super(props);
+  public render():JSX.Element {
+    const { profile, error, loading } = this.props;
 
-    this.state = { loading: false };
+    const errorElement = error && <FormError>{error.message}</FormError>;
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+    const button = loading ? (
+      <div>
+        <button className="button-primary" type="submit" disabled>Loading...</button>
+      </div>
+    ) : (
+      <div>
+        <button className="button-primary" type="submit">Save</button>
+      </div>
+    );
 
-  handleSubmit(data: any) {
-    console.log(data);
-  }
-
-  render() {
     return (
-      <Form onSubmit={this.handleSubmit} validation={validate}>
-        <Field field="name" label="Name">
-          <Text />
-        </Field>
+      <div className={styles.main}>
+        <Form
+          onSubmit={this.onSubmit}
+        >
+          <Field field="name" label="Name">
+            <Text value={profile && profile.name} />
+          </Field>
 
-        <Field field="description" label="Description">
-          <Text />
-        </Field>
+          <Field field="description" label="Description">
+            <Text value={profile && profile.description} />
+          </Field>
 
-        <div className={styles.buttonRow}>
-          <button className="button-primary" type="submit">Save</button>
-        </div>
-      </Form>
+          {errorElement}
+
+          {button}
+        </Form>
+      </div>
     );
   }
 }

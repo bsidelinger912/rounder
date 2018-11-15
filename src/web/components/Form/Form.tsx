@@ -7,20 +7,19 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 const serialize = require('form-serialize');
 
-// import styles from './form.scss';
+export type FormData = Record<string, any>;
+export type FormErrors = Record<string, string>;
 
-export class Form extends React.Component<any, any> {
-  static propTypes = {
-    validation: PropTypes.func,
-    onSubmit: PropTypes.func,
-    children: PropTypes.node.isRequired,
-  }
+interface Props {
+  validation?(data: FormData): FormErrors;
+  onSubmit(data: FormData, e: React.FormEvent): void;
+}
 
-  static defaultProps = {
-    validation: null,
-    onSubmit: () => {},
-  }
+interface State {
+  validationErrors: FormErrors;
+}
 
+export class Form extends React.Component<Props, State> {
   static childContextTypes = {
     validationErrors: PropTypes.object,
   }
@@ -41,7 +40,7 @@ export class Form extends React.Component<any, any> {
     return { validationErrors: this.state.validationErrors };
   }
 
-  onSubmit(e: any) {
+  onSubmit(e: React.FormEvent) {
     e.preventDefault();
     this.setState({ validationErrors: {} });
 
@@ -66,7 +65,7 @@ export class Form extends React.Component<any, any> {
     return validation;
   }
 
-  serialize() {
+  serialize(): FormData {
     const data = serialize(this.formElement, { hash: true });
 
     return data;

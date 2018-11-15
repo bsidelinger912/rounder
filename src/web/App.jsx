@@ -5,6 +5,7 @@ import Header from 'src/web/components/Header';
 import fetchUserContainer from 'src/containers/FetchUserContainer';
 
 import './client/scss/base.global.scss';
+import './client/scss/vendor.global.scss';
 import styles from './app.scss';
 
 const propTypes = {

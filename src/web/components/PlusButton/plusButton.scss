@@ -1,0 +1,26 @@
+// TODO: use shared color variables
+$buttonColor: #1767e8;
+$buttonHoverColor: #0456db;
+
+.main {
+  border-radius: 50%;
+  background: rgba($buttonColor, .8);
+  border: 1px solid rgba(#fff, .2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+  width: 25px;
+  line-height: .5rem;
+  font-size: 1.5rem;
+  padding: 0 0 0 1px;
+  margin: 0;
+  text-decoration: none;
+  color: #fff; 
+
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+    background: rgba($buttonHoverColor, .8);
+  }
+}

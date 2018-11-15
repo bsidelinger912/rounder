@@ -4,11 +4,15 @@
  */
 
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 
 import { Form, Text, Field } from '../Form';
+import { withContext, IContext } from 'src/web/Context';
 
 const styles = require('./signupOrLogin.scss');
+
+interface Props extends IContext {
+  context: IContext;
+}
 
 function validate(data: any) {
   const errors: any = {};
@@ -24,15 +28,7 @@ function validate(data: any) {
   return errors;
 }
 
-export class Signup extends React.Component<any, any> {
-  static propTypes = {
-    // test: PropTypes.number.isRequired,
-  }
-
-  static contextTypes = {
-    authClient: PropTypes.object,
-  };
-  
+export class Signup extends React.Component<Props, any> {
   private action: string;
 
   constructor(props: any) {
@@ -48,21 +44,21 @@ export class Signup extends React.Component<any, any> {
   }
 
   handleSubmit(data:any) {
-    const { authClient } = this.context;
+    const { authClient } = this.props.context;
     let method;
 
     this.setState({ loading: true });
 
     if (this.action === 'signup') {
-      method = authClient.signup(data);
+      method = authClient && authClient.signup(data);
     } else {
-      method = authClient.login(data);
+      method = authClient && authClient.login(data);
     }
 
     // method.then(() => this.setState({ loading: false }));
 
     // TODO: should we handle auth error in state here?
-    method.catch((error: any) => {
+    method && method.catch((error: any) => {
       console.error(error);
       this.setState({ loading: false })
     });
@@ -107,4 +103,4 @@ export class Signup extends React.Component<any, any> {
   }
 }
 
-export default Signup;
+export default withContext(Signup);

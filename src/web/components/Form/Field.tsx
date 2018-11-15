@@ -8,13 +8,14 @@ import * as PropTypes from 'prop-types';
 
 const styles = require('./styles.scss');
 
-export class Field extends React.Component<any, any> {
-  static propTypes = {
-    label: PropTypes.string,
-    field: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-  }
+interface Props {
+  label?: string;
+  field: string;
+  children: React.ReactNode;
+  compact?: boolean;
+}
 
+export class Field extends React.Component<Props, {}> {
   static defaultProps = {
     label: undefined,
   }
@@ -32,7 +33,7 @@ export class Field extends React.Component<any, any> {
   }
 
   render() {
-    const { children, label, field } = this.props;
+    const { children, label, field, compact } = this.props;
     const { validationErrors } = this.context;
     const labelElem = label ? <label htmlFor={field}>{label}</label> : null;
 
@@ -42,7 +43,7 @@ export class Field extends React.Component<any, any> {
     ) : null;
 
     return (
-      <div className={styles.formRow}>
+      <div className={compact ? styles.formRowShort : styles.formRow}>
         {labelElem}
         {children}
         {errorElem}

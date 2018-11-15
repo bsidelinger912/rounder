@@ -1,3 +1,29 @@
+@import "~src/web/client/scss/mixins";
+@import "~src/web/client/scss/variables";
+
 .main {
-    border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile {
+  @include pageHeader;
+}
+
+.profileContent {
+  .profileName {
+    @include pageHeaderTitle;
+    cursor: pointer;
+  }
+}
+
+.itineraries {
+  @include main;
+  display: flex;
+  flex-direction: column;
+
+  >div {
+    @include whiteBox;
+    margin: #{$smallGutter}px 0;
+  }
 }

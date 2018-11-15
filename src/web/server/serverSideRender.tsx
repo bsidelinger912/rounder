@@ -14,7 +14,7 @@ import { Request, Response } from 'express';
 import reducers from 'src/reducers';
 import webRoutes from 'src/web/routes';
 import AuthClient from 'src/web/AuthClient';
-import ContextProvider from 'src/web/ContextProvider';
+import { Provider as ContextProvider } from 'src/web/Context';
 import Html from 'src/web/server/Html';
 import ErrorPage from 'src/web/server/ErrorPage';
 
@@ -46,7 +46,7 @@ export default function (req: Request, res: Response) {
   // The client-side App will instead use <BrowserRouter>
   const App = (
     <ApolloProvider client={apolloClient}>
-      <ContextProvider authClient={authClient}>
+      <ContextProvider value={{ authClient }}>
         <Provider store={store} key="provider">
           <StaticRouter location={req.url} context={context}>
             {webRoutes}

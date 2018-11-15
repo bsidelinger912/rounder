@@ -1,0 +1,26 @@
+@import "~src/web/client/scss/mixins";
+@import "~src/web/client/scss/variables";
+
+.pageHeader {
+  @include pageHeader;
+}
+
+.pageHeaderTitle {
+  @include pageHeaderTitle;
+}
+
+.main {
+  @include main;
+}
+
+.gridWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -#{$smallGutter / 2}px;
+}
+
+.itemWrapper {
+  width: 33.33%;
+  padding: #{$smallGutter / 2}px;
+  box-sizing: border-box;
+}

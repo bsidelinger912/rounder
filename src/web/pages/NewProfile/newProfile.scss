@@ -1,0 +1,21 @@
+@import "~src/web/client/scss/mixins";
+@import "~src/web/client/scss/variables";
+
+.pageHeader {
+  @include pageHeader;
+}
+
+.pageHeaderTitle {
+  @include pageHeaderTitle;
+}
+
+.form {
+  @include main;
+  @include whiteBox;
+
+  margin-top: #{$smallGutter}px;
+
+  form {
+    max-width: 400px;
+  }
+}

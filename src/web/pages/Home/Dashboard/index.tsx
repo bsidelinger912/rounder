@@ -4,59 +4,53 @@
  */
 
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { RouteComponentProps } from 'react-router';
 
-import ProfileForm from 'src/web/components/ProfileForm';
-import SingleProfileDashboard from 'src/web/pages/Home/Dashboard/SingleProfile';
+import SingleProfileDashboard from './SingleProfile';
+import MultiProfileDashboard from './MultiProfile';
+import NewProfile from '../../NewProfile';
 
 const styles = require('./dashboard.scss');
 
-const propTypes = {};
+interface Props extends RouteComponentProps {
+}
 
-const contextTypes = {
-  authClient: PropTypes.object,
-};
-
-export const Welcome: React.SFC<any> = (props, { authClient }) => (
-  <Query
-    query={gql`
-      {
-        getUser(id: "5bdbe0e075d95e8db4a80bfb") {
-          email
-          id
-          profiles {
-            name
-            description
-          }
-        }
+export const UserQuery = gql`
+  {
+    user {
+      email
+      id
+      profiles {
+        id
+        name
+        description
       }
-    `}
-  >
+    }
+  }
+`;
+
+export const Welcome: React.SFC<Props> = (props) => (
+  <Query query={UserQuery}>
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
 
       let content;
 
-      if (data.getUser.profiles.length > 1) {
+      if (data.user.profiles.length > 1) {
         content = (
-          <div>Multi profile dashboard coming....</div>
+          <MultiProfileDashboard profiles={data.user.profiles} />
         );
-      } else if (data.getUser.profiles.length > 0) {
+      } else if (data.user.profiles.length > 0) {
         content = (
-          <SingleProfileDashboard profile={data.getUser.profiles[0]} />
+          <SingleProfileDashboard profile={data.user.profiles[0]} />
         );
       } else {
         content = (
           <div>
-            <h4>To get started, create your first profile</h4>
-            <p>
-              A profile can be an individual or a group
-            </p>
-
-            <ProfileForm />
+            <NewProfile {...props} firstProfile={true} />
           </div>
         );
       }
@@ -64,20 +58,11 @@ export const Welcome: React.SFC<any> = (props, { authClient }) => (
 
       return (
         <div className={styles.main}>
-          <h1>Welcome</h1>
-
           {content}
-
-          <div>
-            you are logged in <a onClick={authClient.logout}>logout</a>
-          </div>
         </div>
       );
     }}
   </Query>
 );
-
-Welcome.propTypes = propTypes;
-Welcome.contextTypes = contextTypes;
 
 export default Welcome;
