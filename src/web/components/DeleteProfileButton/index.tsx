@@ -9,6 +9,7 @@ import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
 
+import Tooltip from 'src/web/components/Tooltip';
 import { IProfile } from 'src/api/app/schemas/profile/types';
 import IconButton, { IconType } from 'src/web/components/IconButton';
 import { UserQuery } from 'src/web/pages/Home/Dashboard';
@@ -65,7 +66,11 @@ class DeleteButton extends React.Component<ButtonProps, { notificationId?: numbe
   }
 
   public render(): JSX.Element {
-    return <IconButton iconType={IconType.Trash} loading={this.props.loading} onClick={this.delete} />;
+    return (
+      <Tooltip content="Delete Profile">
+        <IconButton iconType={IconType.Trash} loading={this.props.loading} onClick={this.delete} />
+      </Tooltip>
+    );
   }
 }
 
@@ -79,6 +84,7 @@ const DeleteProfileButton: React.SFC<Props> = ({ id }) => {
       update={(cache) => {
         const { user } = cache.readQuery({ query: UserQuery }) as any;
 
+        // TODO: seems to be finding the wrong one!!!!
         const index = user.profiles.indexOf((profile: IProfile) => profile.id === id);
         user.profiles.splice(index, 1);
         

@@ -42,7 +42,7 @@ const render = (routes: JSX.Element) => {
           <Provider store={store} key="provider">
             <>
               <BrowserRouter>{routes}</BrowserRouter>
-              <ToastContainer />
+              <ToastContainer hideProgressBar={true} />
             </>
           </Provider>
         </ApolloProvider>
