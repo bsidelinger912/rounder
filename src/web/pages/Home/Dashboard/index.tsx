@@ -6,11 +6,16 @@
 import * as React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { RouteComponentProps } from 'react-router';
 
 import SingleProfileDashboard from './SingleProfile';
 import MultiProfileDashboard from './MultiProfile';
+import NewProfile from '../../NewProfile';
 
 const styles = require('./dashboard.scss');
+
+interface Props extends RouteComponentProps {
+}
 
 export const UserQuery = gql`
   {
@@ -26,7 +31,7 @@ export const UserQuery = gql`
   }
 `;
 
-export const Welcome: React.SFC<any> = (props, { authClient }) => (
+export const Welcome: React.SFC<Props> = (props) => (
   <Query query={UserQuery}>
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
@@ -45,12 +50,7 @@ export const Welcome: React.SFC<any> = (props, { authClient }) => (
       } else {
         content = (
           <div>
-            <h4>To get started, create your first profile</h4>
-            <p>
-              A profile can be an individual or a group
-            </p>
-
-            Profile form here...
+            <NewProfile {...props} firstProfile={true} />
           </div>
         );
       }

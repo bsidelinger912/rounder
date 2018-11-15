@@ -15,6 +15,7 @@ import { UserQuery } from '../Home/Dashboard';
 const styles = require('./newProfile.scss');
 
 interface Props extends RouteComponentProps {
+  firstProfile?: boolean;
 }
 
 const CreateProfile = gql`
@@ -29,8 +30,17 @@ const CreateProfile = gql`
 
 class CreateProfileMutation extends Mutation<IProfile, { input: IProfileInput }>{}
 
-export const NewProfile: React.SFC<Props> = ({ history }) => {
+export const NewProfile: React.SFC<Props> = ({ history, firstProfile }) => {
   const onSuccess = () => history.push('/');
+
+  const message = firstProfile ? (
+    <>
+      <h4>To get started, create your first profile</h4>
+      <p>
+        A profile can be an individual or a group, more great info coming....
+      </p>
+    </>
+  ) : null;
   
   return (
     <div>
@@ -54,7 +64,10 @@ export const NewProfile: React.SFC<Props> = ({ history }) => {
         }}
       >
         {(updateProfile, { data, loading, error }) => (
-          <ProfileForm {...{ submit: updateProfile, data, loading, error, onSuccess }} />
+          <>
+            {message}
+            <ProfileForm {...{ submit: updateProfile, data, loading, error, onSuccess }} />
+          </>
         )}
       </CreateProfileMutation>
       </div>
