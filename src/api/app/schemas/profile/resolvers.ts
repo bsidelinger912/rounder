@@ -1,7 +1,13 @@
+import { ApolloError } from 'apollo-server';
+
 import Profile from './model';
 import UserModel from '../user/model';
 import { ICreateArgs, IQueryArgs, IUpdateArgs, IProfile, IProfileModel} from './types';
+import errorCodes from '../../errorCodes';
 // const auth = require('../../authenticateResolver.js');
+
+// TODO: get error handling dialed
+// https://blog.apollographql.com/full-stack-error-handling-with-graphql-apollo-5c12da407210
 
 export default {
   Query: {
@@ -44,13 +50,25 @@ export default {
 
     async deleteProfile(_: {}, { id }: IQueryArgs) {
       const profile = await Profile.findOne({ _id: id });
-      await (profile as any as IProfileModel).delete();
+     
+      if (!profile) {
+        throw new ApolloError('Profile was not found', errorCodes.NOT_FOUND);
+      }
+      
+      await profile.delete();
+      
       return profile;
     },
 
     async restoreProfile(_: {}, { id }: IQueryArgs) {
-      const profile = await Profile.findOne({ _id: id });
-      await (Profile.findOne({ _id: id }) as any as IProfileModel).restore();
+      const profile = await (Profile as any as IProfileModel).findOneDeleted({ _id: id }) as IProfileModel;
+
+      if (!profile) {
+        throw new ApolloError('Profile was not found', errorCodes.NOT_FOUND);
+      }
+
+      await profile.restore();
+      
       return profile;
     },
   },

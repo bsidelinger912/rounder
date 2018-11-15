@@ -15,7 +15,7 @@ export enum IconType {
 
 export interface Props {
   iconType: IconType;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent) => void;
   loading?: boolean;
 }
 

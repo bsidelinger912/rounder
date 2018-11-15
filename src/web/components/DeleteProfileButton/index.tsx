@@ -3,17 +3,26 @@
  * @description 
  */
 
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import * as React from 'react';
+import { Mutation, MutationFn } from 'react-apollo';
+import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
+import { ApolloError } from 'apollo-client';
 
-import { IProfile } from "src/api/app/schemas/profile/types";
-import IconButton, { IconType } from "src/web/components/IconButton";
-import { UserQuery } from "src/web/pages/Home/Dashboard";
+import { IProfile } from 'src/api/app/schemas/profile/types';
+import IconButton, { IconType } from 'src/web/components/IconButton';
+import { UserQuery } from 'src/web/pages/Home/Dashboard';
+import ProfileDeletedNotification from './ProfileDeletedNotification';
 
 export interface Props {
   id: string;
+}
+
+interface ButtonProps {
+  id: string;
+  deleteProfile: MutationFn<IProfile, { id: string; }>;
+  error: ApolloError | undefined;
+  loading: boolean;
 }
 
 const DeleteProfile = gql`
@@ -26,54 +35,41 @@ const DeleteProfile = gql`
   }
 `;
 
-const RestoreProfile = gql`
-mutation RestoreProfile($id: ID!) {
-  restoreProfile(id: $id) {
-    id
-    name
-    description
+class DeleteButton extends React.Component<ButtonProps, { notificationId?: number }> {
+  constructor(props: ButtonProps) {
+    super(props);
+
+    this.state = {};
+  }
+  
+  public componentWillReceiveProps(nextProps: ButtonProps) {
+    if (nextProps.error && !this.props.error) {
+      toast.error('there was an error deleting the profile');
+    }
+  }
+
+  private delete: (e: React.MouseEvent) => void = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const { deleteProfile, id } = this.props;
+
+    deleteProfile({ variables: { id } });
+    const notificationId = toast(<ProfileDeletedNotification id={id} cancelNotification={this.cancelNotification} />);
+
+    this.setState({ notificationId });
+  }
+
+  private cancelNotification: () => void = () => {
+    toast.dismiss(this.state.notificationId);
+  }
+
+  public render(): JSX.Element {
+    return <IconButton iconType={IconType.Trash} loading={this.props.loading} onClick={this.delete} />;
   }
 }
-`;
 
 class DeleteProfileMutation extends Mutation<IProfile, { id: string; }>{}
-class RestoreProfileMutation extends Mutation<IProfile, { id: string; }>{}
-
-const ProfileDeletedToast: React.SFC<Props> = ({ id }) => {
-  return (
-    <RestoreProfileMutation 
-      mutation={RestoreProfile} 
-      variables={{ id }}
-      update={(cache) => {
-        const { user } = cache.readQuery({ query: UserQuery }) as any;
-
-        const index = user.profiles.indexOf((profile: IProfile) => profile.id === id);
-        user.profiles.splice(index, 1);
-        
-        cache.writeQuery({
-          query: UserQuery,
-          data: { user }
-        })
-      }}
-    >
-      {(restoreProfile, { loading, error }) => {
-        if (error) {
-          console.error(error);
-          toast.error('there was an error restoring the profile');
-        }
-
-        const restoreMethod = () => {
-          if (loading) {
-            return;
-          }
-          restoreProfile({ variables: { id } });
-        };
-
-        return <span>The profile has been deleted.  <a onClick={restoreMethod}>undo</a></span>;
-      }}
-    </RestoreProfileMutation>
-  );
-};
 
 const DeleteProfileButton: React.SFC<Props> = ({ id }) => {
   return (
@@ -93,17 +89,7 @@ const DeleteProfileButton: React.SFC<Props> = ({ id }) => {
       }}
     >
       {(deleteProfile, { loading, error }) => {
-        if (error) {
-          console.error(error);
-          toast.error('there was an error deleting the profile');
-        }
-
-        const deleteMethod = () => {
-          deleteProfile({ variables: { id } });
-          toast(<ProfileDeletedToast id={id} />);
-        };
-        
-        return <IconButton iconType={IconType.Trash} loading={loading} onClick={deleteMethod} />;
+        return <DeleteButton {...{ id, loading, error, deleteProfile }} />;
       }}
     </DeleteProfileMutation>
   );
