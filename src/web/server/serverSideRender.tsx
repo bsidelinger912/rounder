@@ -8,8 +8,11 @@ import thunk from 'redux-thunk';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
+import { setContext } from 'apollo-link-context';
 import { createHttpLink } from 'apollo-link-http';
 import { Request, Response } from 'express';
+// TODO: make typings for isomorphic-cookie
+const cookie = require('isomorphic-cookie');
 
 import reducers from 'src/reducers';
 import webRoutes from 'src/web/routes';
@@ -19,17 +22,26 @@ import Html from 'src/web/server/Html';
 import ErrorPage from 'src/web/server/ErrorPage';
 
 export default function (req: Request, res: Response) {
+  const httpLink = createHttpLink({
+    uri: 'http://localhost:4000/graphql',
+  });
+  
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    const token = cookie.load('jwt', req);
+  
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: `Bearer ${token}`,
+      }
+    }
+  });
+
   const apolloClient = new ApolloClient({
     ssrMode: true,
-    // Remember that this is the interface the SSR server will use to connect to the
-    // API server, so we need to ensure it isn't firewalled, etc
-    link: createHttpLink({
-      uri: 'http://localhost:4000/graphql',
-      credentials: 'same-origin',
-      headers: {
-        cookie: req.header('Cookie'),
-      },
-    }),
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 
@@ -39,11 +51,8 @@ export default function (req: Request, res: Response) {
   );
 
   const authClient = new AuthClient(store, req);
-
-  // TODO: WTF is this????
   const context = {};
 
-  // The client-side App will instead use <BrowserRouter>
   const App = (
     <ApolloProvider client={apolloClient}>
       <ContextProvider value={{ authClient }}>
@@ -57,7 +66,6 @@ export default function (req: Request, res: Response) {
   );
 
   getDataFromTree(App).then(() => {
-    // We are ready to render for real
     const markup = ReactDOMServer.renderToString(App);
     const initialState = apolloClient.extract();
 

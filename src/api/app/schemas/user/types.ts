@@ -4,13 +4,14 @@ import { IProfile } from "../profile/types";
 
 // this is the user object that gets sent to client
 export interface IUser {
-  id: string;
+  id: any;
   email: string;
   profiles: IProfile[];
 }
 
 // the internal user object for how the db is set up
 export interface IUserInternal {
+  profiles?: IProfile[];
   local?: {
     email: string;
     password: string;

@@ -1,5 +1,7 @@
 import * as passport from 'passport';
 import { Request, Response } from 'express';
+import { AuthenticationError } from 'apollo-server';
+
 import { IUserModel } from './schemas/user/types';
 
 export default function auth(req: Request, res: Response): Promise<IUserModel> {
@@ -7,7 +9,7 @@ export default function auth(req: Request, res: Response): Promise<IUserModel> {
     passport.authenticate('jwt', { session: false }, (err, user) => {
       if (err) reject(err);
       if (user) resolve(user);
-      else reject('Unauthorized');
+      else reject(new AuthenticationError('Authentication Failed'));
     })(req, res);
   });
 };
