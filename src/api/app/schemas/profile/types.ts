@@ -1,6 +1,6 @@
 import { IItinerary } from '../itinerary/types';
 import { DocumentWithDelete } from '../../../types';
-import { IUser } from '../user/types';
+import { IUserModel } from '../user/types';
 
 export interface IProfile {
   id: string;
@@ -10,7 +10,8 @@ export interface IProfile {
 }
 
 export interface IProfileInternal extends IProfile {
-  users: IUser[];
+  users: IUserModel[];
+  pastUsers: IUserModel[];
 }
 
 export type IProfileModel = IProfileInternal & DocumentWithDelete;

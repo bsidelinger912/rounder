@@ -15,7 +15,6 @@ const ProfileSchema = new mongoose.Schema({
     type: (mongoose.Schema as any).ObjectId,
     ref: 'User',
   }],
-  // TODO: is this what's needed for undoing a "delete" when there are multiple users????
   pastUsers: [{
     type: (mongoose.Schema as any).ObjectId,
     ref: 'User',

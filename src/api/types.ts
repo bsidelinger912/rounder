@@ -3,6 +3,9 @@ import { Document, Query, DocumentQuery, QueryFindOneAndUpdateOptions, ModelUpda
 export interface DocumentWithDelete extends Document {
   delete(callback?: (err: any, res: any[]) => void): Promise<this>;
   delete(args?: any, callback?: (err: any, res: any[]) => void): Promise<this>;
+  deleted: boolean;
+  deletedAt: Date;
+  deletedBy: string;
   restore(callback?: () => void): Promise<this>;
   countDeleted(callback?: (err: any, count: number) => void): Query<number>;
   countDeleted(criteria: any, callback?: (err: any, count: number) => void): Query<number>;
