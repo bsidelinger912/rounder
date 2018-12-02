@@ -1,5 +1,6 @@
 import { IItinerary } from '../itinerary/types';
 import { DocumentWithDelete } from '../../../types';
+import { IUserModel } from '../user/types';
 
 export interface IProfile {
   id: string;
@@ -8,12 +9,12 @@ export interface IProfile {
   itineraries?: IItinerary[];
 }
 
-/* TODO:
 export interface IProfileInternal extends IProfile {
-  users: IUser[];
-}*/
+  users: IUserModel[];
+  pastUsers: IUserModel[];
+}
 
-export type IProfileModel = IProfile & DocumentWithDelete;
+export type IProfileModel = IProfileInternal & DocumentWithDelete;
 
 export type IProfileInput = Pick<IProfile, "name" | "description">;
 

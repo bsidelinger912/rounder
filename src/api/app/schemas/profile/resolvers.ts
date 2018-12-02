@@ -1,10 +1,13 @@
-import { ApolloError } from 'apollo-server';
+import { ApolloError, ForbiddenError } from 'apollo-server';
 
 import Profile from './model';
-import UserModel from '../user/model';
+// import UserModel from '../user/model';
 import { ICreateArgs, IQueryArgs, IUpdateArgs, IProfile, IProfileModel} from './types';
+import { userCanModifyProfile, addProfileToUser, removeProfileFromUser } from './util';
+
 import errorCodes from '../../errorCodes';
-// const auth = require('../../authenticateResolver.js');
+import { IGraphQlContext } from '../../../index';
+import auth from '../../authenticateResolver.js';
 
 // TODO: get error handling dialed
 // https://blog.apollographql.com/full-stack-error-handling-with-graphql-apollo-5c12da407210
@@ -20,56 +23,89 @@ export default {
   },
 
   Mutation: {
-    // async createProfile(root, { input }, { req, res }) {
-      /* try {
-        const user = await auth(req, res);
+    async createProfile(_: {}, { input }: ICreateArgs, { res, req }: IGraphQlContext): Promise<IProfile> {
+      const user = await auth(req, res);
 
-        // does this profile belong to this user???
+      try {
+        // create the new profile
+        const profile = await Profile.create({ 
+          ...input,
+          users: [user],
+        });
 
-        return Profile.create({ ...input, userIds: [user._id] }); // eslint-disable-line
-      } catch (e) {
-        throw new Error(e);
-      }*/
-    async createProfile(_: {}, { input }: ICreateArgs): Promise<IProfile> {
-      const userId = '5bdbe0e075d95e8db4a80bfb';
+        await addProfileToUser(user, profile);
 
-      // create the new profile
-      const profile = await Profile.create(input);
+        return profile;
+      } catch(e) {
+        throw new ApolloError('Failed to create profile', errorCodes.DB_ERROR);
+      }
+    },
 
-      // save it to the user
-      await UserModel.findOneAndUpdate({ _id: userId }, { $push: { profiles: profile } }, { new: true });
+    async updateProfile(_: {}, { id, input }: IUpdateArgs, { res, req }: IGraphQlContext) {
+      const thisUser = await auth(req, res);
+
+      const profile = await Profile.findOne({ _id: id }).populate('users', ['id']).exec();
+
+      if (!profile) {
+        throw new ApolloError('Profile was not found', errorCodes.NOT_FOUND);
+      }
+
+      if (!userCanModifyProfile(thisUser, profile)) {
+        throw new ForbiddenError('This profile does not belong to you');
+      }
+
+      profile.set(input);
+      await profile.save();
 
       return profile;
     },
 
-    updateProfile(_: {}, { id, input }: IUpdateArgs) {
-      return Profile.findOneAndUpdate({ _id: id }, input, {
-        new: true,
-      });
-    },
+    async deleteProfile(_: {}, { id }: IQueryArgs, { res, req }: IGraphQlContext) {
+      const thisUser = await auth(req, res);
 
-    async deleteProfile(_: {}, { id }: IQueryArgs) {
-      const profile = await Profile.findOne({ _id: id });
+      const profile = await Profile.findOne({ _id: id }).populate('users', ['id']).exec();
      
       if (!profile) {
         throw new ApolloError('Profile was not found', errorCodes.NOT_FOUND);
       }
+
+      if (!userCanModifyProfile(thisUser, profile)) {
+        throw new ForbiddenError('This profile does not belong to you');
+      }
+
+
+      // Remove this profile from the denormalized user object
+      await removeProfileFromUser(thisUser, profile);
       
-      await profile.delete();
-      
+      // only actually delete it if this is the last user
+      if (profile.users.length < 1) {
+        await profile.delete();
+      }
+
       return profile;
     },
 
-    async restoreProfile(_: {}, { id }: IQueryArgs) {
-      const profile = await (Profile as any as IProfileModel).findOneDeleted({ _id: id }) as IProfileModel;
+    async restoreProfile(_: {}, { id }: IQueryArgs, { res, req }: IGraphQlContext) {
+      const thisUser = await auth(req, res);
+      const profile = await (Profile as any as IProfileModel).findOneWithDeleted({ _id: id }).populate('users', ['id']).exec() as IProfileModel;
 
       if (!profile) {
         throw new ApolloError('Profile was not found', errorCodes.NOT_FOUND);
       }
 
-      await profile.restore();
+      if (!userCanModifyProfile(thisUser, profile)) {
+        throw new ForbiddenError('This profile does not belong to you');
+      }
+
+      await addProfileToUser(thisUser, profile);
+
+      // If it wasn't fully deleted (due to other users), we just have to add it pack to the user record
+      if (profile.deleted) {
+        await profile.restore();
+      }
       
       return profile;
+      
     },
   },
 };

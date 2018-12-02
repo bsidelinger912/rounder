@@ -6,20 +6,39 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-
 import thunk from 'redux-thunk';
 import { AppContainer } from 'react-hot-loader';
-import ApolloClient from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
 import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+const cookie = require('isomorphic-cookie');
 
 import reducers from 'src/reducers';
 import webRoutes from 'src/web/routes';
 import AuthClient from 'src/web/AuthClient';
 import { Provider as ContextProvider } from 'src/web/Context';
 
-const apolloClient = new ApolloClient({
+const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
+})
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = cookie.load('jwt');
+
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: `Bearer ${token}`,
+    }
+  }
+});
+
+const apolloClient = new ApolloClient({
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache().restore((window as any).__APOLLO_STATE__), // eslint-disable-line no-underscore-dangle
 });
 

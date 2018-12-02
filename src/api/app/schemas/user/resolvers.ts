@@ -22,14 +22,7 @@ export default {
       if (id) {
         user = await UserModel.findById(id);
       } else {
-        try {
-          user = await auth(req, res);
-        } catch(e) {
-          // TODO: WTF??????
-          console.log('***** auth failed *********');
-          console.log(req.headers);
-          user = await UserModel.findById('5bdbe0e075d95e8db4a80bfb'); 
-        }
+        user = await auth(req, res);
       }
       
       if(!user) {
