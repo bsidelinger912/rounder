@@ -8,16 +8,11 @@ import UserSchema from './user/schema';
 
 const SchemaDefinition = `
 type Query {
-  profiles: [Profile]
-  profile(id: ID!): Profile
   user(id: ID): User
 }
 
 type Mutation {
-  createProfile(input: ProFileInput) : Profile
-  updateProfile(id: ID!, input: ProFileInput): Profile
-  deleteProfile(id: ID!): Profile
-  restoreProfile(id: ID!): Profile
+  _empty: String
 }
 `;
 
