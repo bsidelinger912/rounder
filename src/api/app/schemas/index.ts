@@ -6,6 +6,9 @@ import ProfileSchema from './profile/schema';
 import userResolvers from './user/resolvers';
 import UserSchema from './user/schema';
 
+import itineraryResolvers from './itinerary/resolvers';
+import ItinerarySchema from './itinerary/schema';
+
 const SchemaDefinition = `
 type Query {
   user(id: ID): User
@@ -17,8 +20,8 @@ type Mutation {
 `;
 
 // TODO: figure out why need to cast userResolvers to any????
-const resolvers = [profileResolvers, userResolvers as any];
-const typeDefs = [SchemaDefinition, ProfileSchema, UserSchema];
+const resolvers = [profileResolvers, userResolvers as any, itineraryResolvers];
+const typeDefs = [SchemaDefinition, ProfileSchema, UserSchema, ItinerarySchema];
 
 const schema = makeExecutableSchema({
   typeDefs,

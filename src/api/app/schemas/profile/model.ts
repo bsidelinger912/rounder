@@ -15,6 +15,10 @@ const ProfileSchema = new mongoose.Schema({
     type: (mongoose.Schema as any).ObjectId,
     ref: 'User',
   }],
+  itineraries: [{
+    type: (mongoose.Schema as any).ObjectId,
+    ref: 'Itinerary',
+  }],
 }, {
   toObject: { virtuals: true },
   toJSON: { virtuals: true },

@@ -46,7 +46,7 @@ export default {
     async updateProfile(_: {}, { id, input }: IUpdateArgs, { res, req }: IGraphQlContext): Promise<IProfile> {
       const thisUser = await auth(req, res);
 
-      const profile = await Profile.findOne({ _id: id }).populate('users', ['id']).exec();
+      const profile = await Profile.findOne({ _id: id });
 
       if (!profile) {
         throw new ApolloError('Profile was not found', errorCodes.NOT_FOUND);

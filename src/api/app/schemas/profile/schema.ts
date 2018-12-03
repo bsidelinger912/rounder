@@ -17,6 +17,7 @@ type Profile {
   id: ID!
   name: String!
   description: String
+  itineraries: Itinerary
 }
 
 input ProFileInput {
