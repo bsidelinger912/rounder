@@ -11,11 +11,7 @@ const ProfileSchema = new mongoose.Schema({
     required: true,
   },
   description: String,
-  users: [{
-    type: (mongoose.Schema as any).ObjectId,
-    ref: 'User',
-  }],
-  pastUsers: [{
+  admins: [{
     type: (mongoose.Schema as any).ObjectId,
     ref: 'User',
   }],

@@ -10,8 +10,7 @@ export interface IProfile {
 }
 
 export interface IProfileInternal extends IProfile {
-  users: IUserModel[];
-  pastUsers: IUserModel[];
+  admins: IUserModel[];
 }
 
 export type IProfileModel = IProfileInternal & DocumentWithDelete;
