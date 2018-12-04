@@ -22,6 +22,18 @@
   }
 }
 
+.wrappingGrid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -#{$smallGutter / 2}px;
+
+  >div {
+    width: 33.33%;
+    padding: #{$smallGutter / 2}px;
+    box-sizing: border-box;
+  }
+}
+
 @mixin headingLink {
   color: $dimGrey;
   text-decoration: none;
@@ -66,18 +78,31 @@
   }
 }
 
+.pageContentHeader {
+  padding: $smallGutter;
+  // background: rgba(#000, .25);
+
+  >div {
+    @include main;
+    border-bottom: 1px solid $whiteSmoke;
+    margin-bottom: #{$smallGutter}px;
+    margin-top: #{$smallGutter}px;
+
+    h4 {
+      // text-transform: uppercase;
+      font-weight: 500;
+      font-size: 2.8rem;
+      color: $darkestGrey;
+    }
+  }
+}
+
 @mixin pageHeaderTitle {
   margin-top: 0;
   margin-bottom: 0;
   text-transform: uppercase;
   font-weight: 600;
   font-size: 3rem;
-}
-
-@mixin pageSubHeader {
-  padding: $smallGutter;
-  background: rgba(#000, .2);
-  color: #fff;
 }
 
 @mixin aspectRatio($width, $height) {

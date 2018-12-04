@@ -13,14 +13,6 @@
   @include main;
 }
 
-.gridWrapper {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -#{$smallGutter / 2}px;
-}
-
-.itemWrapper {
-  width: 33.33%;
-  padding: #{$smallGutter / 2}px;
-  box-sizing: border-box;
+.grid {
+  composes: wrappingGrid;
 }

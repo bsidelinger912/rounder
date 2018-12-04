@@ -25,8 +25,8 @@ const MyProfilesContent: React.SFC<Props> = ({ profiles }) => {
         </div>
       </div>
       <div className={styles.main}>
-        <div className={styles.gridWrapper}>
-          {profiles.map(profile => <div className={styles.itemWrapper} key={profile.id}><ProfileItem {...profile} /></div>)}
+        <div className={styles.grid}>
+          {profiles.map(profile => <div key={profile.id}><ProfileItem {...profile} /></div>)}
         </div>
       </div>
     </div>

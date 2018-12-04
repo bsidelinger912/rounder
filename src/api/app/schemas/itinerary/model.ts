@@ -11,6 +11,10 @@ const ItinerarySchema = new mongoose.Schema({
     required: true,
   },
   description: String,
+  profile: {
+    type: (mongoose.Schema as any).ObjectId,
+    ref: 'Profile',
+  },
   /* waypoints: [{
     type: (mongoose.Schema as any).ObjectId,
     ref: 'Waypoint',
@@ -19,7 +23,6 @@ const ItinerarySchema = new mongoose.Schema({
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
 });
-
 
 ItinerarySchema.plugin(mongooseDelete, { overrideMethods: 'all' }); // , { deletedBy : true });
 

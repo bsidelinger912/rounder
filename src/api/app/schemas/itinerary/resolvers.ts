@@ -2,7 +2,7 @@ import { ApolloError, ForbiddenError } from 'apollo-server';
 
 import Itinerary from './model';
 import Profile from '../profile/model';
-import { ICreateArgs, IQueryArgs, IItinerary} from './types';
+import { ICreateArgs, IQueryArgs, IItinerary, IUpdateArgs} from './types';
 
 import errorCodes from '../../errorCodes';
 import { IGraphQlContext } from '../../../index';
@@ -33,7 +33,7 @@ export default {
       }
 
       try {
-        const itinerary = await Itinerary.create(input);
+        const itinerary = await Itinerary.create({ ...input, profile });
         
         if (!profile.itineraries) {
           profile.itineraries = [];
@@ -49,5 +49,19 @@ export default {
         throw new ApolloError('Failed to create itinerary', errorCodes.DB_ERROR);
       }
     },
+
+    async updateItinerary(_: {}, { id, input }: IUpdateArgs, {res, req}: IGraphQlContext): Promise<IItinerary> {
+      const itinerary = await Itinerary.findById(id).populate('profile');
+
+      if (!itinerary) {
+        throw new ApolloError('Itinerary was not found', errorCodes.NOT_FOUND);
+      }
+
+      console.log('*****');
+      console.log(itinerary);
+
+      return itinerary;
+
+    }
   },
 };

@@ -21,8 +21,13 @@ class ProfileQuery extends Query<Data, QueryProps>{}
 const Profile = gql`
   query Profile($profileId: ID!) {
     profile(id: $profileId) {
+      id
       name
       description
+      itineraries {
+        name
+        description
+      }
     }
   }
 `;

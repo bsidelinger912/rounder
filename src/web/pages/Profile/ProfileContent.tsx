@@ -17,7 +17,7 @@ export interface Props extends IProfile {
 }
 
 const ProfileContent: React.SFC<Props> = (props) => {
-  const { name, itineraries } = props;
+  const { name, itineraries, id } = props;
 
   return (
     <div className={styles.main}>
@@ -30,8 +30,15 @@ const ProfileContent: React.SFC<Props> = (props) => {
           <NewProfileButton />
         </div>
       </div>
+
+      <div className={styles.itinerariesHeading}>
+        <div>
+          <h4>Upcoming Itineraries</h4>
+        </div>
+      </div>
+
       <div className={styles.itineraries}>
-        <ItineraryList itineraries={itineraries || []} />
+        <ItineraryList profileId={id} itineraries={itineraries || []} />
       </div>
     </div>
   );

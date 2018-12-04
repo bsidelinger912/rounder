@@ -8,6 +8,7 @@ import { userCanModifyProfile, addProfileToUser, removeProfileFromUser, userCanC
 import errorCodes from '../../errorCodes';
 import { IGraphQlContext } from '../../../index';
 import auth from '../../authenticateResolver.js';
+import { IItinerary } from '../itinerary/types';
 
 const UserDisconnectDelayMs = 30000;
 
@@ -21,6 +22,24 @@ export default {
     },
     profile(_: {}, { id }: IQueryArgs) {
       return Profile.findById(id);
+    },
+  },
+
+  Profile: {
+    itineraries(profile: IProfile): Promise<IItinerary[]> {
+      return new Promise((resolve, reject) => {
+        Profile.findById(profile.id)
+          .populate('itineraries', ['name', 'description'])
+          .exec((err, populatedProfile: IProfile) => {
+            if (err) {
+              reject(err);
+            }
+
+            console.log(populatedProfile);
+
+            resolve(populatedProfile.itineraries);
+          });
+      });
     },
   },
 

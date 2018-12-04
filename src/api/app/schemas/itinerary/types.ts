@@ -1,9 +1,12 @@
 import { IWaypoint } from '../waypoint/types';
 import { DocumentWithDelete } from '../../../types';
+import { IProfile } from '../profile/types';
 
 export interface IItinerary {
+  id: string;
   name: string;
   description?: string;
+  profile: IProfile;
   waypoints?: IWaypoint[];
 }
 

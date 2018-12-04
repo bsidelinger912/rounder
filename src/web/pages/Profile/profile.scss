@@ -19,11 +19,10 @@
 
 .itineraries {
   @include main;
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column;*/
+}
 
-  >div {
-    @include whiteBox;
-    margin: #{$smallGutter}px 0;
-  }
+.itinerariesHeading {
+  composes: pageContentHeader;
 }
