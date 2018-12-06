@@ -3,4 +3,14 @@
 
 .wrapper {
   @include whiteBox;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+  }
 }

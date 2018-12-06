@@ -15,14 +15,16 @@ export default {
       return Itinerary.find();
     },
     itinerary(_: {}, { id }: IQueryArgs) {
-      return Itinerary.findById(id);
+      return Itinerary.findById(id).populate('profile').exec();
     },
   },
 
   Mutation: {
     async createItinerary(_: {}, { input, profileId }: ICreateArgs, { res, req }: IGraphQlContext): Promise<IItinerary> {
       const thisUser = await auth(req, res);
-      const profile = await Profile.findOne({ _id: profileId });
+
+      // TODO: it'd be nice to not populate admins as all we need is the ID, which we have without populating
+      const profile = await Profile.findOne({ _id: profileId }).populate('admins', ['id']).exec();
 
       if (!profile) {
         throw new ApolloError('Profile was not found', errorCodes.NOT_FOUND);
@@ -51,7 +53,8 @@ export default {
     },
 
     async updateItinerary(_: {}, { id, input }: IUpdateArgs, {res, req}: IGraphQlContext): Promise<IItinerary> {
-      const itinerary = await Itinerary.findById(id).populate('profile');
+      // const thisUser = await auth(req, res);
+      const itinerary = await Itinerary.findById(id).populate('profile').exec();
 
       if (!itinerary) {
         throw new ApolloError('Itinerary was not found', errorCodes.NOT_FOUND);
@@ -62,6 +65,35 @@ export default {
 
       return itinerary;
 
+    },
+
+    async deleteItinerary(_: {}, { id }: IQueryArgs, { res, req }: IGraphQlContext): Promise<IItinerary> {
+      const thisUser = await auth(req, res);
+      const itinerary = await Itinerary.findById(id).populate('profile').exec();
+
+      if (!itinerary) {
+        throw new ApolloError('Itinerary was not found', errorCodes.NOT_FOUND);
+      }
+
+      // TODO: it'd be nice to not have to populate this as it gives you the IDs you need without doing so
+      await itinerary.profile.populate('admins').execPopulate();
+
+      if (!userCanModifyProfile(thisUser, itinerary.profile)) {
+        throw new ForbiddenError('This itinerary does not belong to you');
+      }
+
+      // remove this itin from the profile
+      const safeItinArray = (itinerary.profile.itineraries || []);
+      const itinIndex = safeItinArray.findIndex(itin => itin.id = itinerary.id);
+      if (itinIndex > -1) {
+        safeItinArray.splice(itinIndex, 1);
+        await itinerary.profile.save();
+      }
+
+      // now we can delete the itinerary itself
+      await itinerary.delete();
+
+      return itinerary;
     }
   },
 };

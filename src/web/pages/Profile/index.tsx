@@ -25,6 +25,7 @@ const Profile = gql`
       name
       description
       itineraries {
+        id
         name
         description
       }

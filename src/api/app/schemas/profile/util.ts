@@ -3,12 +3,12 @@ import { IProfileModel } from './types';
 
 export function userCanModifyProfile(user: IUserModel, profile: IProfileModel): boolean {
   // for now any user that can act on a profile will be in the users array (even ones who've disconnected from the profile)
-  return !!(profile.admins.find(user => user.id === user.id));
+  return !!(profile.admins.find(thisUser => thisUser.id === user.id));
 }
 
 export function userCanConnectToProfile(user: IUserModel, profile: IProfileModel): boolean {
   // TODO: accept other relationships than admin in the future
-  return !!(profile.admins.find(user => user.id === user.id));
+  return !!(profile.admins.find(thisUser => thisUser.id === user.id));
 }
 
 export async function addUserToProfile(user: IUserModel, profile: IProfileModel): Promise<void> {

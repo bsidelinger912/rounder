@@ -15,6 +15,7 @@ type Itinerary {
   id: ID!
   name: String!
   description: String
+  profile: Profile!
 }
 
 input ItineraryInput {
